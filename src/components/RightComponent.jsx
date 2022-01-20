@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "./RightComponent.css";
+import "../styles/RightComponent.css";
 
 const RightComponent = () => {
   const [person, setPerson] = useState([]);
@@ -15,7 +15,7 @@ const RightComponent = () => {
             method: "GET",
             "Content-type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MTRiMmEwMDRiYjUzZDAwMTViMTlmODkiLCJpYXQiOjE2Mzc1ODkxNTYsImV4cCI6MTYzODc5ODc1Nn0.R82gI1w_H-zy1zE4Vvm_fL1qJWc8fo-0lG8mcUE1OW0",
+              `Bearer ${ process.env.REACT_APP_TOKEN }`,
           },
         }
       );
@@ -57,7 +57,7 @@ const RightComponent = () => {
                 <p className="mb-1 text-muted" style={{ fontSize: "11px" }}>
                   {m.title}
                 </p>
-                <Link to={`/profile/${m._id}`}>
+                <Link to={`/profile/${ m._id }`}>
                   <Button variant="outline-secondary" className="follow m-1">
                     <i className="fas fa-plus mr-1"></i>
                     Follow
