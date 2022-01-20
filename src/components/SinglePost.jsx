@@ -18,17 +18,17 @@ const SinglePost = ({ post }) => {
       <Row>
         <Col xs="auto" className="experience">
           <Image
-            src={post.user.image}
+            src={post?.user?.image}
             width={49}
             height={49}
             style={{ borderRadius: "50%" }}
           />
         </Col>
         <Col className="pl-0">
-          <h6 className="m-0 ">{post.user.name}</h6>
+          <h6 className="m-0 ">{post?.user?.name}</h6>
           <p className="text-muted " style={{ fontSize: "11px" }}>
             {" "}
-            {post.user.bio}
+            {post?.user?.bio}
             <br />
             {/* {timeSince(new Date(Date.now() - aDay))} */}
             <i className="fas fa-globe-europe"></i>
@@ -39,15 +39,15 @@ const SinglePost = ({ post }) => {
         </Col>
       </Row>
       <Row className="mt-2 mx-1">
-        <p>{post.text}</p>
-        {post.image && <Image src={post.image} style={{ width: "100%" }} />}
+        <p>{post?.text}</p>
+        {post?.image && <Image src={post?.image} style={{ width: "100%" }} />}
       </Row>
       <hr />
       <LikeShare />
       <Row className=" d-flex justify-content-between align-items-center p-0 m-1">
         <Col className="p-0" xs="auto">
           <Image
-            src={post.user.image}
+            src={post?.user?.image}
             style={{ borderRadius: "50%", width: "48px" }}
           />
         </Col>

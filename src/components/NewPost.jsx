@@ -25,16 +25,39 @@ import {
 } from "react-bootstrap-icons";
 import Loading from "./Loading";
 import Error from "./Error";
+import useFetch from "../hooks/useFetch";
+import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
 
 const NewPost = () => {
 
-  const [user, setUser] = useState({});
+  const { performCreateOrUpdate } = useCreateOrUpdate()
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [show, setShow] = useState(false)
 
-  const [formData, setFormData] = useState({});
+  const [postImage, setPostImage] = useState('')
+  const [postText, setPostText] = useState('')
 
-  if (loading) return <Loading />;
+  const handleSubmit = () => {
+    let formData = new FormData()
+    formData.append('postImage', postImage || '')
+    formData.append('text', postText || '')
+    performCreateOrUpdate('posts/luraplitmur', 'POST', formData)
+    setShow(false)
+  }
+
+
+  //use useParams to grab username?
+  const { data, loading: newPostLoading, error: newPostError } = useFetch(`profiles/luraplitmur`)
+
+  useEffect(() => {
+    setUser(data)
+    setLoading(newPostLoading)
+    setError(newPostError)
+  }, [data])
+
+  // if (loading) return <Loading />;
   if (error) return <Error />;
 
   return (
@@ -44,11 +67,11 @@ const NewPost = () => {
         style={{ background: "#fff" }}
       >
         <div className="d-flex">
-          <Image className="newPostProfileImg" src={user.image} />
+          <Image className="newPostProfileImg" src={user?.image} />
           <Button
             className="newPostStartPostButton text-left mx-2"
             variant="outline-secondary"
-            onClick={() => handleModal(true)}
+            onClick={() => setShow(true)}
           >
             Start a post
           </Button>
@@ -86,14 +109,14 @@ const NewPost = () => {
           </div>
         </div>
       </div>
-      <Modal show={show} onHide={() => handleModal(false)}>
+      <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Create a post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="d-flex align-items-center">
             <div className="p-1">
-              <Image className="newPostProfileImg" src={user.image} />
+              <Image className="newPostProfileImg" src={user?.image} />
             </div>
             <div className="p-1">
               <Button
@@ -101,7 +124,7 @@ const NewPost = () => {
                 variant="outline-secondary"
               >
                 <Info size={24} />
-                <span>{user.name}</span>
+                <span>{user?.name}</span>
                 <CaretDownFill className="ml-2" />
               </Button>
             </div>
@@ -119,23 +142,23 @@ const NewPost = () => {
           <Form.Group className="my-3">
             <Form.Control
               as="textarea"
-              value={post}
-              placeholder="What do you want to tlk about?"
+              value={postText}
+              placeholder="What do you want to talk about?"
               rows={3}
-              onChange={(event) => setPost(event.target.value)}
+              onChange={(event) => setPostText(event.target.value)}
             />
           </Form.Group>
-          {addPhoto && (
-            <Form.Group>
-              <Form.Label>Post Photo</Form.Label>
-              <Form.Control
-                type="file"
-                onChange={(event) => {
-                  setFormData(event.target.files[0]);
-                }}
-              />
-            </Form.Group>
-          )}
+
+          <Form.Group>
+            <Form.Label>Post Photo</Form.Label>
+            <Form.Control
+              type="file"
+              onChange={(event) => {
+                setPostImage(event.target.files[0]);
+              }}
+            />
+          </Form.Group>
+
           <Button className="hashtagButton" variant="outline-primary">
             Add hashtage
           </Button>
@@ -143,7 +166,7 @@ const NewPost = () => {
             <div className="border-right d-flex align-items-center mt-3 mr-2">
               <div
                 className="newPostBottomIcons d-flex justify-content-center align-items-center text-secondary p-2"
-                onClick={() => setAddPhoto(!addPhoto)}
+              // onClick={() => setAddPhoto(!addPhoto)}
               >
                 <OverlayTrigger
                   key="top"
@@ -217,7 +240,7 @@ const NewPost = () => {
                 <Button
                   className="post-button"
                   variant="secondary"
-                  onClick={uploadPost}
+                  onClick={handleSubmit}
                 >
                   Post
                 </Button>

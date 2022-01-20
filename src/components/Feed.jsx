@@ -27,13 +27,13 @@ const Feed = () => {
     <Container>
       <Row>
         <Col xs={12} lg={6}>
-          {/* <NewPost /> */}
+          <NewPost />
           {posts && (posts.posts.map(post => <SinglePost key={post._id} post={post} />))}
         </Col>
         <Col xs={12} lg={{ order: "first" }}>
           <LeftComponent />
         </Col>
-         <Col xs={12} lg={3}>
+        <Col xs={12} lg={3}>
           <RightComponent />
         </Col>
       </Row>

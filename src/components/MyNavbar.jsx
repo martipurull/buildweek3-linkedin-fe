@@ -27,7 +27,7 @@ const MyNavbar = () => {
   const [userProfile, setUserProfile] = useState()
   const [showPopover, setShowPopover] = useState(false)
 
-  const { data } = useFetch(`profiles/test123`)
+  const { data } = useFetch(`profiles/luraplitmur`)
 
   useEffect(() => {
     setUserProfile(data)
@@ -53,7 +53,7 @@ const MyNavbar = () => {
             </div>
           </div>
           <div id="modal-view-profile-btn-container">
-            <Link to={`/profile/${userProfile?.username}`}>
+            <Link to={`/profile/${ userProfile?.username }`}>
               <Button
                 id="modal-view-profile-btn"
                 variant="outline-primary"
