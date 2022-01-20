@@ -27,7 +27,7 @@ const MyNavbar = () => {
   const [userProfile, setUserProfile] = useState()
   const [showPopover, setShowPopover] = useState(false)
 
-  const { data } = useFetch(`profiles/luraplitmur`)
+  const { data } = useFetch(`profiles/test123`)
 
   useEffect(() => {
     setUserProfile(data)

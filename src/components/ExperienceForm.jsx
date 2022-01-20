@@ -8,14 +8,14 @@ import Alert from "react-bootstrap/Alert"
 import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
 import { PencilFill, PlusLg } from "react-bootstrap-icons"
-import { Link, useParams } from "react-router-dom"
+import { Link } from "react-router-dom"
 import Loading from "./Loading"
 import Error from "./Error"
 import useFetch from "../hooks/useFetch"
 import useDelete from "../hooks/useDelete"
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate"
 
-const ExperienceForm = ({ requestType, id, userName }) => {
+const ExperienceForm = ({ requestType, id, userName, handleChange }) => {
   
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -27,6 +27,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
       "description": "",
       "area": ""
   })
+
   const [stillWorkingAtRole, setStillWorkingAtRole] = useState(true)
   const [descriptionValueLength, setDescriptionValueLength] = useState(0)
   const [selectedFile, setSelectedFile] = useState(null)
@@ -34,7 +35,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
     const url = id ? `profiles/${userName}/experiences/${id}` : `profiles/${userName}/experiences`
     const method = id ? 'PUT' : 'POST'
 
-    const { data, loading: expLoading, error: expError, refetchData } = useFetch(url)
+    const { data, loading: expLoading, error: expError } = useFetch(url)
 
     const { performDelete } = useDelete(`profiles/${userName}/experiences/${id}`)
 
@@ -63,7 +64,6 @@ const ExperienceForm = ({ requestType, id, userName }) => {
   const handleClose = () => setShow(false)
 
   const handleSubmit = async () => {
-    console.log(experience)
     let formData = new FormData()
     formData.append('experienceCover', selectedFile || '')
     formData.append('role', experience.role)
@@ -72,20 +72,15 @@ const ExperienceForm = ({ requestType, id, userName }) => {
     formData.append('endDate', experience.endDate || '')
     formData.append('description', experience.description)
     formData.append('area', experience.area)
-    
-    for (var pair of formData.entries()) {
-      console.log(pair[0]+ ', ' + pair[1]); 
-  }
-
     performCreateOrUpdate(url, method, formData)
     handleClose()
-    refetchData()
+    handleChange()
   }
 
   const handleDelete = () => {
     performDelete()
     handleClose()
-    refetchData()
+    handleChange()
   }
 
 
@@ -216,7 +211,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
                   <Form.Control
                     type="date"
                     required
-                    value={experience.startDate}
+                    value={experience.startDate.split('T')[0]}
                     onChange={(e) => handleInput("startDate", e.target.value)}
                   />
                 </Form.Group>

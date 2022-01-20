@@ -43,13 +43,13 @@ const NewPost = () => {
     let formData = new FormData()
     formData.append('postImage', postImage || '')
     formData.append('text', postText || '')
-    performCreateOrUpdate('posts/luraplitmur', 'POST', formData)
+    performCreateOrUpdate('posts/test123', 'POST', formData)
     setShow(false)
   }
 
 
   //use useParams to grab username?
-  const { data, loading: newPostLoading, error: newPostError } = useFetch(`profiles/luraplitmur`)
+  const { data, loading: newPostLoading, error: newPostError } = useFetch(`profiles/test123`)
 
   useEffect(() => {
     setUser(data)
