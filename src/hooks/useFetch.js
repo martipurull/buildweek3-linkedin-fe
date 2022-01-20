@@ -24,6 +24,20 @@ export default function useFetch(url) {
         fetchData()
     }, [url])
 
-    return { data, error, loading }
+    const refetchData = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`)
+            if (!response.ok) throw new Error('Fetch Failed')
+            const body = await response.json()
+            setData(body)
+        } catch (error) {
+            setError(error)
+            console.error(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return { data, error, loading, refetchData }
 
 }

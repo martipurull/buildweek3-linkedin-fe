@@ -14,10 +14,7 @@ const SingleExperience = ({ experience, userName }) => {
   return (
     <Row>
       <Col xs="auto" className="experience">
-        <div
-          className="square"
-          style={{ backgroundColor: randomColor(6) }}
-        ></div>
+        <img src={experience.image} alt="" />
       </Col>
       <Col className="pl-0">
         <h6 className="m-0 ">{experience.role}</h6>

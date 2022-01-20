@@ -12,6 +12,7 @@ import { Link, useParams } from "react-router-dom"
 import Loading from "./Loading"
 import Error from "./Error"
 import useFetch from "../hooks/useFetch"
+import useDelete from "../hooks/useDelete"
 
 const ExperienceForm = ({ requestType, id, userName }) => {
   
@@ -23,6 +24,9 @@ const ExperienceForm = ({ requestType, id, userName }) => {
   const [formData, setFormData] = useState(null)
 
     const { data, loading: expLoading, error: expError } = useFetch(id ? `profiles/${userName}/experiences/${id}` : `profiles/${userName}/experiences`)
+
+    const { performDelete } = useDelete(`profiles/${userName}/experiences/${id}`)
+
 
     useEffect(() => {
       if (requestType === 'put') {
@@ -45,7 +49,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
 
   const handleSubmit = async () => {}
   
-  const handleDelete = async () => {}
+  const handleDelete = async () => performDelete()
 
 
   // if (loading) return <Loading />

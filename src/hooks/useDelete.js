@@ -6,7 +6,7 @@ export default function useDelete(url) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
 
-    const fetchData = async () => {
+    const performDelete = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
                 method: 'DELETE'
@@ -21,10 +21,6 @@ export default function useDelete(url) {
         }
     }
 
-    useEffect(() => {
-        fetchData()
-    }, [url])
-
-    return { response, error, loading }
+    return { response, error, loading, performDelete }
 
 }

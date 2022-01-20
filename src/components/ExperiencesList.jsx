@@ -1,17 +1,16 @@
-import { useState, useEffect } from "react";
-import { Row, Col, Container } from "react-bootstrap";
-import { useParams } from "react-router";
-import SingleExperience from "./SingleExperience";
-import ExperienceForm from "./ExperienceForm";
-import Loading from "./Loading";
-import Error from "./Error";
-import useFetch from "../hooks/useFetch";
+import { useState, useEffect } from "react"
+import { Row, Col, Container } from "react-bootstrap"
+import SingleExperience from "./SingleExperience"
+import ExperienceForm from "./ExperienceForm"
+import Loading from "./Loading"
+import Error from "./Error"
+import useFetch from "../hooks/useFetch"
 
 const ExperiencesList = ({ userName }) => {
 
-  const [experiences, setExperiences] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [experiences, setExperiences] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
 
   const { data, loading: expLoading, error: expError } = useFetch(`profiles/${userName}/experiences`)
 
@@ -21,8 +20,8 @@ const ExperiencesList = ({ userName }) => {
     setError(expError)
   }, [data, expLoading, expError, userName])
 
-  if (loading) return <Loading />;
-  if (error) return <Error />;
+  if (loading) return <Loading />
+  if (error) return <Error />
 
   return (
     <>
@@ -38,7 +37,7 @@ const ExperiencesList = ({ userName }) => {
         {experiences?.map(exp => <SingleExperience key={exp._id} experience={exp} userName={userName}/> )}
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default ExperiencesList;
+export default ExperiencesList

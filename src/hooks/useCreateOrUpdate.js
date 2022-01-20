@@ -6,7 +6,7 @@ export default function useCreateOrUpdate(url, method, body) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
 
-    const fetchData = async () => {
+    const performCreateOrUpdate = async () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${url}`, {
                 method,
@@ -23,10 +23,6 @@ export default function useCreateOrUpdate(url, method, body) {
         }
     }
 
-    useEffect(() => {
-        fetchData()
-    }, [url, method, body])
-
-    return { data, error, loading }
+    return { data, error, loading, performCreateOrUpdate }
 
 }
