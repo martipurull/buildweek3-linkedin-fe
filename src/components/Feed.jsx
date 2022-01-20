@@ -7,6 +7,7 @@ import RightComponent from "./RightComponent"
 import Loading from "./Loading"
 import Error from "./Error"
 import useFetch from "../hooks/useFetch"
+import SkeletonPost from "./SkeletonPost"
 
 const Feed = () => {
   const [posts, setPosts] = useState(null)
@@ -28,6 +29,7 @@ const Feed = () => {
       <Row>
         <Col xs={12} lg={6}>
           <NewPost />
+          {loading && [1, 2, 3, 4].map((number) => <SkeletonPost key={number} />)}
           {posts && (posts.posts.map(post => <SinglePost key={post._id} post={post} />))}
         </Col>
         <Col xs={12} lg={{ order: "first" }}>

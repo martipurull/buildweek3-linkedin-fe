@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import ProfileJumbotron from "./ProfileJumbotron";
 import RightComponent from "./RightComponent";
 import ExperiencesList from "./ExperiencesList";
+import Dashboard from "./Dashboard";
 
 const Profile = () => {
 
@@ -15,6 +16,7 @@ const Profile = () => {
         <Row>
           <Col xs={12} md={8}>
             <ProfileJumbotron userName={userName} />
+            { userName === 'test123' &&  <Dashboard /> }
             <ExperiencesList userName={userName} />
            </Col>
           <Col xs={12} md={4}>

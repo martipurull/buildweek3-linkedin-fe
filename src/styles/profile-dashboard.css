@@ -1,0 +1,20 @@
+.dashboard {
+    margin: 20px 0;
+    background-color: #d1dfeb;
+    font-weight: 400;
+}
+
+.dashboard .list-group-item {
+    width: 33.333%;
+}
+
+.dashboard-number {
+    color: var(--primary-blue);
+    font-size: 2rem;
+    font-weight: 300;
+    border-radius: 0.5rem;
+}
+
+.dashboard-heading {
+    font-weight: 400;
+}
