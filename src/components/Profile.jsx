@@ -6,7 +6,7 @@ import RightComponent from "./RightComponent";
 import ExperiencesList from "./ExperiencesList";
 
 const Profile = () => {
-  
+
   const { userName } = useParams()
 
   return (
@@ -15,8 +15,8 @@ const Profile = () => {
         <Row>
           <Col xs={12} md={8}>
             <ProfileJumbotron userName={userName} />
-            {/* <ExperiencesList />
-          </Col>
+            <ExperiencesList userName={userName} />
+          {/*  </Col>
           <Col xs={12} md={4}>
             <RightComponent /> */}
           </Col> 

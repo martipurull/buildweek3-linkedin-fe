@@ -9,163 +9,44 @@ import Button from "react-bootstrap/Button"
 import ButtonGroup from "react-bootstrap/ButtonGroup"
 import { PencilFill, PlusLg } from "react-bootstrap-icons"
 import { Link, useParams } from "react-router-dom"
-import { putExperience } from "../api/putExperience"
-import { postExperience } from "../api/postExperience"
-import { deleteExperience } from "../api/deleteExperience"
-import { postExperienceImage } from "../api/postExperienceImage"
 import Loading from "./Loading"
 import Error from "./Error"
 import useFetch from "../hooks/useFetch"
 
-const ExperienceForm = ({ requestType, headline, id }) => {
+const ExperienceForm = ({ requestType, headline, id, userName }) => {
+  
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const params = useParams()
-
-  const [experienceToSubmit, setExperienceToSubmit] = useState({
-    role: "",
-    company: "",
-    startDate: "",
-    endDate: null,
-    description: "",
-    area: "",
-  })
-  
-  const { data: experienceData } = useFetch(`profiles/${params.userName}/experiences`)
-
-  useEffect(() => {
-    const fetch = async () => {
-      const data = experienceData
-      setExperienceToSubmit({
-        role: data.role || "",
-        company: data.company || "",
-        startDate: data.startDate.slice(0, 10) || "",
-        endDate: (data.endDate && data.endDate.slice(0, 10)) || null,
-        description: data.description || "",
-        area: data.area || "",
-      })
-    }
-    if (requestType === "put") {
-      fetch()
-    }
-  }, [requestType, id, params.userName, experienceData])
-
+  const [experience, setExperience] = useState({})
   const [stillWorkingAtRole, setStillWorkingAtRole] = useState(true)
+  const [descriptionValueLength, setDescriptionValueLength] = useState(0)
+  const [formData, setFormData] = useState(null)
 
-  const handleEndDate = (checkboxValue) => {
-    setStillWorkingAtRole(checkboxValue)
-  }
+    const { data, loading: expLoading, error: expError } = useFetch(`profiles/${userName}/experiences/${id}`)
 
-  const [newHeadline, setNewHeadline] = useState(headline)
-  // const [newIndustry, setNewIndustry] = useState(industry)
-  const [textAreaValueLength, setTextAreaValueLength] = useState(0)
+    useEffect(() => {
+      if (requestType === 'put') {
+        setExperience(data)
+        setLoading(expLoading)
+        setError(expError)
+        setDescriptionValueLength(experience?.description?.length)
+      }
+    }, [data, expLoading, expError])
 
   const [show, setShow] = useState(false)
   const [notify, setNotify] = useState(true)
-  const handleShow = () => setShow(true)
-  const handleClose = () => setShow(false)
 
-  const handleSubmit = async () => {
-    setLoading(true)
-    try {
-      const resp =
-        requestType === "put"
-          ? await putExperience(params.id, id, experienceToSubmit)
-          : await postExperience(params.id, experienceToSubmit)
-      if (!resp.ok) {
-        throw new Error("failed to fetch")
-      }
-      return resp
-    } catch (error) {
-      console.log(error)
-      setError(error)
-    } finally {
-      setLoading(false)
-      uploadProfileImage()
-      handleClose()
-    }
-  }
-
-  const handleDelete = async () => {
-    try {
-      const resp = await deleteExperience(params.id, id)
-      if (!resp.ok) {
-        throw new Error("failed to delete!")
-      }
-      return resp
-    } catch (error) {
-      console.log(error)
-      setError(error)
-    }
-  }
-
-  const handleNotify = () => {
-    setNotify(!notify)
-  }
-
-  const handleHeadline = (inputHeadline) => {
-    setNewHeadline(inputHeadline)
-  }
-  // const handleIndustry = (inputIndustry) => {
-  //     setNewIndustry(inputIndustry)
-  // }
-
-  const handleTextAreaValueLength = (inputTextAreaValue) => {
-    setTextAreaValueLength(inputTextAreaValue)
-  }
-
-  const handleInput = (fieldKey, inputValue) => {
-    setExperienceToSubmit({
-      ...experienceToSubmit,
-      [fieldKey]: inputValue,
+  const handleInput = (field, value) => {
+    setExperience({
+      ...experience,
+      [field]: value
     })
   }
 
-  const [userProfile, setUserProfile] = useState({})
+  const handleSubmit = async () => {}
+  
+  const handleDelete = async () => {}
 
-  const getUserProfile = async () => {
-    try {
-      const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-          },
-        }
-      )
-      if (response.ok) {
-        const userData = await response.json()
-        setUserProfile(userData)
-      } else {
-        console.log("RESPONSE ERROR!")
-      }
-    } catch (error) {
-      console.log("FETCH ERROR:" + error.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    getUserProfile()
-    // eslint-disable-next-line
-  }, [])
-
-  const [formData, setFormData] = useState({})
-
-  const uploadProfileImage = async () => {
-    try {
-      const imgData = new FormData()
-      imgData.append("experience", formData)
-      const resp = await postExperienceImage(userProfile._id, id, imgData)
-      console.log(resp)
-      return resp
-    } catch (error) {
-      setError(error)
-    } finally {
-      setLoading(false)
-    }
-  }
 
   if (loading) return <Loading />
   if (error) return <Error />
@@ -173,15 +54,15 @@ const ExperienceForm = ({ requestType, headline, id }) => {
   return (
     <>
       {requestType === "post" ? (
-        <PlusLg size={26} id="plus-icon-open-edit-form" onClick={handleShow} />
+        <PlusLg size={26} id="plus-icon-open-edit-form" onClick={() => setShow(true)} />
       ) : (
         <PencilFill
           size={20}
           id="pencil-icon-open-edit-form"
-          onClick={handleShow}
+          onClick={() => setShow(true)}
         />
       )}
-      <Modal id="experience-form-modal" show={show} onHide={handleClose}>
+      <Modal id="experience-form-modal" show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
             {" "}
@@ -204,7 +85,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                     id="on-btn-enabled"
                     className="btn-sm"
                     variant="success"
-                    onClick={handleNotify}
+                    onClick={() => setNotify(!notify)}
                   >
                     On
                   </Button>
@@ -223,7 +104,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                     id="off-btn-enabled"
                     className="btn-sm"
                     variant="secondary"
-                    onClick={handleNotify}
+                    onClick={() => setNotify(!notify)}
                   >
                     Off
                   </Button>
@@ -248,31 +129,17 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                 type="text"
                 placeholder="Ex: Retail Sales Manager"
                 required
-                value={experienceToSubmit.role}
+                value={experience.role}
                 onChange={(e) => handleInput("role", e.target.value)}
               />
             </Form.Group>
-            {/* <Form.Group controlId="employmentType">
-                            <Form.Label>Employment type</Form.Label>
-                            <Form.Control as="select">
-                                <option>Full-time</option>
-                                <option>Part-time</option>
-                                <option>Self-employed</option>
-                                <option>Freelance</option>
-                                <option>Contract</option>
-                                <option>Internship</option>
-                                <option>Apprenticeship</option>
-                            </Form.Control>
-                            <p>Country-specific employment types</p>
-                            <Link id="employment-type-link" to="/">Learn more</Link>
-                        </Form.Group> */}
             <Form.Group controlId="company">
               <Form.Label>Company name*</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Ex: Microsoft"
                 required
-                value={experienceToSubmit.company}
+                value={experience.company}
                 onChange={(e) => handleInput("company", e.target.value)}
               />
             </Form.Group>
@@ -282,7 +149,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                 type="text"
                 placeholder="Ex: London, United Kingdom"
                 required
-                value={experienceToSubmit.area}
+                value={experience.area}
                 onChange={(e) => handleInput("area", e.target.value)}
               />
             </Form.Group>
@@ -291,7 +158,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                 type="checkbox"
                 id="stillWorkingAtRoleCheckbox"
                 name="stillWorkingAtRoleCheckbox"
-                onChange={(e) => handleEndDate(e.target.checked)}
+                onChange={(e) => setStillWorkingAtRole(e.target.checked)}
                 checked={stillWorkingAtRole}
               />
               <label for="stillWorkingAtRoleCheckbox" className="ml-2 mt-3">
@@ -306,7 +173,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                   <Form.Control
                     type="date"
                     required
-                    value={experienceToSubmit.startDate}
+                    value={experience.startDate}
                     onChange={(e) => handleInput("startDate", e.target.value)}
                   />
                 </Form.Group>
@@ -318,40 +185,27 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                     <Form.Control
                       type="date"
                       required
-                      value={experienceToSubmit.endDate || ""}
+                      value={experience.endDate || ""}
                       onChange={(e) => handleInput("endDate", e.target.value)}
                     />
                   </Form.Group>
                 )}
               </Col>
             </Row>
-            <Form.Group controlId="headline">
-              <Form.Label>Headline</Form.Label>
-              <Form.Control
-                type="text"
-                value={newHeadline}
-                onChange={(e) => handleHeadline(e.target.value)}
-              />
-            </Form.Group>
-            {/* <Form.Group controlId="industry">
-                            <Form.Label>Industry*</Form.Label>
-                            <Form.Control type="text" value={newIndustry} onChange={(e) => handleIndustry(e.target.value)} required />
-                            <p id="industry-disclaimer">LinkedIn uses industry information to provide more relevant recommendations</p>
-                        </Form.Group> */}
             <Form.Group controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 maxLength="2000"
-                value={experienceToSubmit.description}
-                onChange={(e) => handleInput("description", e.target.value)}
-                onInput={(e) =>
-                  handleTextAreaValueLength(e.target.value.length)
-                }
+                value={experience.description}
+                onChange={(e) => {
+                  handleInput("description", e.target.value)
+                  setDescriptionValueLength(e.target.value.length)
+                }}
               />
               <div className="d-flex justify-content-end">
-                <p id="characterCount">{textAreaValueLength}/2,000</p>
+                <p id="characterCount">{descriptionValueLength}/2,000</p>
               </div>
             </Form.Group>
             <Form.Group>
@@ -372,9 +226,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
               <Form.Control
                 id="choose-file-btn"
                 type="file"
-                onChange={(event) => {
-                  setFormData(event.target.files[0])
-                }}
+                onChange={(event) => setFormData(event.target.files[0])}
               />
             </Form.Group>
           </Form>

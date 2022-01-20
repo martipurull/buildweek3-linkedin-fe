@@ -5,12 +5,21 @@ import SingleExperience from "./SingleExperience";
 import ExperienceForm from "./ExperienceForm";
 import Loading from "./Loading";
 import Error from "./Error";
+import useFetch from "../hooks/useFetch";
 
-const ExperiencesList = () => {
-  
+const ExperiencesList = ({ userName }) => {
+
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const { data, loading: expLoading, error: expError } = useFetch(`profiles/${userName}/experiences`)
+
+  useEffect(() => {
+    setExperiences(data)
+    setLoading(expLoading)
+    setError(expError)
+  }, [data, expLoading, expError])
 
   if (loading) return <Loading />;
   if (error) return <Error />;
@@ -26,9 +35,7 @@ const ExperiencesList = () => {
             <ExperienceForm requestType={"post"} headline={"Web Developer"} />
           </Col>
         </Row>
-        {experiences.map((exp) => (
-          <SingleExperience key={exp._id} experience={exp} />
-        ))}
+        {experiences?.map(exp => <SingleExperience key={exp._id} experience={exp} userName={userName}/> )}
       </Container>
     </>
   );
