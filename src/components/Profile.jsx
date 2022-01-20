@@ -16,9 +16,9 @@ const Profile = () => {
           <Col xs={12} md={8}>
             <ProfileJumbotron userName={userName} />
             <ExperiencesList userName={userName} />
-          {/*  </Col>
+           </Col>
           <Col xs={12} md={4}>
-            <RightComponent /> */}
+            <RightComponent />
           </Col> 
         </Row>
       </Container>
