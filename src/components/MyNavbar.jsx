@@ -68,17 +68,18 @@ const MyNavbar = () => {
         </ListGroup.Item>
         <ListGroup.Item>
           <h5>Account</h5>
-          <p>Settings &amp; Privacy</p>
-          <p>Help</p>
-          <p>Language</p>
+          <p className="mb-1 text-muted">Settings &amp; Privacy</p>
+          <p className="mb-1 text-muted">Help</p>
+          <p className="mb-1 text-muted">Language</p>
         </ListGroup.Item>
         <ListGroup.Item>
           <h5>Manage</h5>
-          <p>Posts &amp; Activity</p>
-          <p>Job Posting Account</p>
+          <p className="mb-1 text-muted">Posts &amp; Activity</p>
+          <Link to="/jobs-create" className="mb-1 text-muted">Create Job</Link>
+          <p className="mb-1 text-muted">Edit Job</p>
         </ListGroup.Item>
         <ListGroup.Item>
-          <p>Log Out</p>
+          <p className="mb-1 text-muted">Log Out</p>
         </ListGroup.Item>
       </Popover.Content>
     </Popover>

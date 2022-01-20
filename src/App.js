@@ -7,6 +7,8 @@ import Profile from "./components/Profile";
 import Error from "./components/Error";
 import Feed from "./components/Feed";
 import Jobs from './components/Jobs'
+import JobDetails from './components/JobDetails'
+import CreateJob from './components/CreateJob'
 
 const App = () => {
   return (
@@ -16,6 +18,8 @@ const App = () => {
         <Route path="/" element={<Feed />} />
         <Route path="/profile/:userName" element={<Profile />} />
         <Route path="/jobs" element={<Jobs />} />
+        <Route path="/jobs-create" element={<CreateJob />} />
+        <Route path="/jobs/:jobId" element={<JobDetails />} />
         <Route path="*" element={<Error error="Page not found" />} />
       </Routes>
       <Footer />
