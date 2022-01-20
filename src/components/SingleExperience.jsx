@@ -14,7 +14,7 @@ const SingleExperience = ({ experience, userName }) => {
   return (
     <Row>
       <Col xs="auto" className="experience">
-        <img src={experience.image} alt="" />
+        <img src={experience.image} className="img-fluid w-25" alt="" />
       </Col>
       <Col className="pl-0">
         <h6 className="m-0 ">{experience.role}</h6>
