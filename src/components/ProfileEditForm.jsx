@@ -9,15 +9,35 @@ import { Link, useParams } from 'react-router-dom'
 
 const ProfileEditForm = ({ profileDetails }) => {
 
+    const [updatedProfile, setUpdatedProfile] = useState(profileDetails)
+    const [showEducation, setShowEducation] = useState(true)
+    const [formData, setFormData] = useState(null)
+
+    const [show, setShow]  = useState(false)
+
+    const handleInput = (field, value) => {
+        setUpdatedProfile({
+            ...updatedProfile,
+            [field]: value
+        })
+    }
+
+    const uploadProfileImage = () => {
+
+    }
+
+    const handleSubmit = () => {
+
+    }
 
     return (
         <>
             <PencilFill
                 size={20}
                 id="pencil-icon-open-edit-form"
-                onClick={handleShow}
+                onClick={() => setShow(true)}
             />
-            <Modal id="profile-edit-form-modal" show={show} onHide={handleClose}>
+            <Modal id="profile-edit-form-modal" show={show} onHide={() => setShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>
                         Edit intro
@@ -31,7 +51,7 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <Form.Control
                                 type="text"
                                 required
-                                value={profileToEdit.name}
+                                value={updatedProfile.name}
                                 onChange={(e) => handleInput("name", e.target.value)}
                             />
                         </Form.Group>
@@ -40,7 +60,7 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <Form.Control
                                 type="text"
                                 required
-                                value={profileToEdit.surname}
+                                value={updatedProfile.surname}
                                 onChange={(e) => handleInput("surname", e.target.value)}
                             />
                         </Form.Group>
@@ -62,7 +82,7 @@ const ProfileEditForm = ({ profileDetails }) => {
                                 type="checkbox"
                                 id="showEducationCheckbox"
                                 name="showEducationCheckbox"
-                                onChange={(e) => handleEducation(e.target.checked)}
+                                onChange={(e) => setShowEducation(e.target.checked)}
                                 checked={showEducation}
                             />
                             <label for="showEducationCheckbox" className="ml-2 mt-3">
@@ -75,13 +95,13 @@ const ProfileEditForm = ({ profileDetails }) => {
                                 type="text"
                                 placeholder="Ex: London, United Kingdom"
                                 required
-                                value={profileToEdit.area}
+                                value={updatedProfile.area}
                                 onChange={(e) => handleInput("area", e.target.value)}
                             />
                             <Form.Control
                                 type="text"
                                 placeholder="enter your postcode"
-                                value={profileToEdit.bio}
+                                value={updatedProfile.bio}
                                 onChange={(e) => handleInput("bio", e.target.value)}
                             />
                         </Form.Group>
@@ -90,7 +110,7 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <p>Edit your email address</p>
                             <Form.Control
                                 type="text"
-                                value={profileToEdit.email || ''}
+                                value={updatedProfile.email || ''}
                                 onChange={(e) => handleInput("email", e.target.value)}
                             />
                         </Form.Group>

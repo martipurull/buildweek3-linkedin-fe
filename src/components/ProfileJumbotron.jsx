@@ -6,15 +6,15 @@ import JumbotronEditForm from "./JumbotronEditForm";
 import ProfileEditForm from './ProfileEditForm'
 import useFetch from "../hooks/useFetch";
 
-const ProfileJumbotron = ({ id }) => {
+const ProfileJumbotron = ({ userName }) => {
 
   const [info, setInfo] = useState([]);
 
-  const { data: myData } = useFetch(`http://localhost:3001/profiles/test123`)
+  const { data: myData } = useFetch(`profiles/${userName}`)
 
   useEffect(() => {
     setInfo(myData)
-  }, [id, myData])
+  }, [userName, myData])
 
   return (
     <>

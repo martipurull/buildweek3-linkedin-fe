@@ -6,6 +6,7 @@ import RightComponent from "./RightComponent";
 import ExperiencesList from "./ExperiencesList";
 
 const Profile = () => {
+  
   const { userName } = useParams()
 
   return (
