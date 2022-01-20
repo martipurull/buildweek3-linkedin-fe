@@ -19,7 +19,14 @@ const ExperienceForm = ({ requestType, id, userName }) => {
   
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
-  const [experience, setExperience] = useState({})
+  const [experience, setExperience] = useState({
+      "role": "",
+      "company": "",
+      "startDate": "",
+      "endDate": "",
+      "description": "",
+      "area": ""
+  })
   const [stillWorkingAtRole, setStillWorkingAtRole] = useState(true)
   const [descriptionValueLength, setDescriptionValueLength] = useState(0)
   const [selectedFile, setSelectedFile] = useState(null)
@@ -27,7 +34,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
     const url = id ? `profiles/${userName}/experiences/${id}` : `profiles/${userName}/experiences`
     const method = id ? 'PUT' : 'POST'
 
-    const { data, loading: expLoading, error: expError } = useFetch(url)
+    const { data, loading: expLoading, error: expError, refetchData } = useFetch(url)
 
     const { performDelete } = useDelete(`profiles/${userName}/experiences/${id}`)
 
@@ -53,17 +60,35 @@ const ExperienceForm = ({ requestType, id, userName }) => {
     })
   }
 
+  const handleClose = () => setShow(false)
+
   const handleSubmit = async () => {
+    console.log(experience)
     let formData = new FormData()
     formData.append('experienceCover', selectedFile || '')
     formData.append('role', experience.role)
     formData.append('company', experience.company)
     formData.append('startDate', experience.startDate)
-    formData.append('endDate', experience.endDate)
+    formData.append('endDate', experience.endDate || '')
     formData.append('description', experience.description)
     formData.append('area', experience.area)
-    performCreateOrUpdate(url, method)
+    
+    for (var pair of formData.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
   }
+
+    performCreateOrUpdate(url, method, formData)
+    handleClose()
+    refetchData()
+  }
+
+  const handleDelete = () => {
+    performDelete()
+    handleClose()
+    refetchData()
+  }
+
+
   // if (loading) return <Loading />
   if (error) return <Error />
 
@@ -80,7 +105,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
       )}
       {
         experience && (
-          <Modal id="experience-form-modal" show={show} onHide={() => setShow(false)}>
+          <Modal id="experience-form-modal" show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             {" "}
@@ -179,7 +204,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
                 onChange={(e) => setStillWorkingAtRole(e.target.checked)}
                 checked={stillWorkingAtRole}
               />
-              <label for="stillWorkingAtRoleCheckbox" className="ml-2 mt-3">
+              <label htmlFor="stillWorkingAtRoleCheckbox" className="ml-2 mt-3">
                 I am currently working at this role
               </label>
             </div>
@@ -237,7 +262,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
               <Form.Label
                 id="choose-file-label"
                 className="mt-3 btn btn-outline-primary"
-                for="choose-file-btn"
+                htmlFor="choose-file-btn"
               >
                 <PlusLg id="plus-icon-add-media" size={18} /> Add media
               </Form.Label>
@@ -257,7 +282,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
           }`}
         >
           {requestType === "put" && (
-            <Button id="delete-experience-btn" onClick={() => performDelete()}>
+            <Button id="delete-experience-btn" onClick={handleDelete}>
               Delete experience
             </Button>
           )}
