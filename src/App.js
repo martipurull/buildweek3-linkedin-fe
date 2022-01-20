@@ -14,7 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Feed />} />
         <Route path="/profile/:userName" element={<Profile />} />
-        {/* <Route path="*" element={<Error error="Page not found" />} /> */}
+        <Route path="*" element={<Error error="Page not found" />} />
       </Routes>
       <Footer />
     </BrowserRouter>

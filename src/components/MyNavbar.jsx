@@ -20,11 +20,18 @@ import {
   Search,
 } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
+import useFetch from "../hooks/useFetch";
 
 const MyNavbar = () => {
 
-  const [userProfile, setUserProfile] = useState({});
-  const [showPopover, setShowPopover] = useState(false);
+  const [userProfile, setUserProfile] = useState()
+  const [showPopover, setShowPopover] = useState(false)
+
+  const { data } = useFetch(`profiles/test123`)
+
+  useEffect(() => {
+    setUserProfile(data)
+  }, [data])
 
   const mePopover = (
     <Popover id="popover-contained">
@@ -34,19 +41,19 @@ const MyNavbar = () => {
             <div>
               <img
                 id="modal-profile-pic"
-                src={userProfile.image}
+                src={userProfile?.image}
                 alt="profile"
               />
             </div>
             <div className="ml-3">
               <h5>
-                {userProfile.name} {userProfile.surname}
+                {userProfile?.name} {userProfile?.surname}
               </h5>
-              <p>{userProfile.title}</p>
+              <p>{userProfile?.title}</p>
             </div>
           </div>
           <div id="modal-view-profile-btn-container">
-            <Link to={`/profile/${userProfile._id && userProfile._id}`}>
+            <Link to={`/profile/${userProfile?.username}`}>
               <Button
                 id="modal-view-profile-btn"
                 variant="outline-primary"
@@ -137,7 +144,7 @@ const MyNavbar = () => {
               >
                 <img
                   className="navbar-profile-pic"
-                  src={userProfile.image}
+                  src={userProfile?.image}
                   alt="profile"
                 />
                 <div>

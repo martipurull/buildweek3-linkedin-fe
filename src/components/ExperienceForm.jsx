@@ -13,7 +13,7 @@ import Loading from "./Loading"
 import Error from "./Error"
 import useFetch from "../hooks/useFetch"
 
-const ExperienceForm = ({ requestType, headline, id, userName }) => {
+const ExperienceForm = ({ requestType, id, userName }) => {
   
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -22,7 +22,7 @@ const ExperienceForm = ({ requestType, headline, id, userName }) => {
   const [descriptionValueLength, setDescriptionValueLength] = useState(0)
   const [formData, setFormData] = useState(null)
 
-    const { data, loading: expLoading, error: expError } = useFetch(`profiles/${userName}/experiences/${id}`)
+    const { data, loading: expLoading, error: expError } = useFetch(id ? `profiles/${userName}/experiences/${id}` : `profiles/${userName}/experiences`)
 
     useEffect(() => {
       if (requestType === 'put') {
@@ -48,7 +48,7 @@ const ExperienceForm = ({ requestType, headline, id, userName }) => {
   const handleDelete = async () => {}
 
 
-  if (loading) return <Loading />
+  // if (loading) return <Loading />
   if (error) return <Error />
 
   return (
@@ -62,7 +62,9 @@ const ExperienceForm = ({ requestType, headline, id, userName }) => {
           onClick={() => setShow(true)}
         />
       )}
-      <Modal id="experience-form-modal" show={show} onHide={() => setShow(false)}>
+      {
+        experience && (
+          <Modal id="experience-form-modal" show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>
             {" "}
@@ -253,6 +255,8 @@ const ExperienceForm = ({ requestType, headline, id, userName }) => {
           </Button>
         </Modal.Footer>
       </Modal>
+        )
+      }
     </>
   )
 }

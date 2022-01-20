@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 import ExperienceForm from "./ExperienceForm";
 import { parseISO } from "date-fns";
 
-const SingleExperience = ({ experience }) => {
+const SingleExperience = ({ experience, userName }) => {
 
 
   const randomColor = (size) => {
@@ -31,7 +31,7 @@ const SingleExperience = ({ experience }) => {
         <ExperienceForm
           id={experience._id}
           requestType={"put"}
-          headline={"Web Developer"}
+          userName={userName}
         />
       </Col>
     </Row>
