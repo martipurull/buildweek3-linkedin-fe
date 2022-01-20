@@ -1,5 +1,4 @@
 import { Container, Row, Col } from "react-bootstrap";
-import { useEffect } from "react";
 import { useParams } from "react-router";
 import ProfileJumbotron from "./ProfileJumbotron";
 import RightComponent from "./RightComponent";
@@ -16,10 +15,10 @@ const Profile = () => {
           <Col xs={12} md={8}>
             <ProfileJumbotron userName={userName} />
             <ExperiencesList userName={userName} />
-           </Col>
+          </Col>
           <Col xs={12} md={4}>
             <RightComponent />
-          </Col> 
+          </Col>
         </Row>
       </Container>
     </>

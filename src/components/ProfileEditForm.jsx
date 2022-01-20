@@ -4,31 +4,68 @@ import Modal from 'react-bootstrap/Modal'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import refetchData from "../hooks/useFetch"
+import useFetch from '../hooks/useFetch'
+import Loading from "./Loading"
+import Error from "./Error"
 
 
-const ProfileEditForm = ({ profileDetails }) => {
+const ProfileEditForm = ({ profileDetails, requestType, userName }) => {
 
-    const [updatedProfile, setUpdatedProfile] = useState(profileDetails)
-    const [showEducation, setShowEducation] = useState(true)
-    const [formData, setFormData] = useState(null)
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [show, setShow] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
+    const [profile, setProfile] = useState(profileDetails)
 
-    const [show, setShow]  = useState(false)
+    const url = userName ? `profiles/${userName}` : `profiles`
+    const handleClose = () => { setShow(false) }
+    const { error: proError, refetchData } = useFetch(url)
 
     const handleInput = (field, value) => {
-        setUpdatedProfile({
-            ...updatedProfile,
+        setProfile({
+            ...profile,
             [field]: value
         })
     }
 
-    const uploadProfileImage = () => {
+    const handleSubmit = async () => {
+        let formData = new FormData()
+        formData.append('name', profile.name)
+        formData.append('surname', profile.surname)
+        formData.append('bio', profile.bio)
+        formData.append('title', profile.title)
+        formData.append('email', profile.email)
+        formData.append('area', profile.area)
+        formData.append('profileImage', selectedFile || '')
 
+        var requestOptions = {
+            method: requestType,
+            body: formData,
+            redirect: "follow",
+        };
+        const put = () => {
+            fetch(`http://localhost:3006/profiles/${userName}`, requestOptions)
+                .then((response) => response.text())
+                .then((result) => console.log(result))
+                .catch((error) => console.log("error", error))
+        }
+        put()
+        handleClose()
+        refetchData()
     }
 
-    const handleSubmit = () => {
+    useEffect(() => {
+        if (requestType === 'put') {
+            setProfile(profileDetails)
+            // setLoading()
+            setError()
+        }
+    }, [proError])
 
-    }
+    // if (loading) return <Loading />;
+    if (error) return <Error />;
+
 
     return (
         <>
@@ -51,7 +88,7 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <Form.Control
                                 type="text"
                                 required
-                                value={updatedProfile.name}
+                                value={profile.name}
                                 onChange={(e) => handleInput("name", e.target.value)}
                             />
                         </Form.Group>
@@ -60,13 +97,13 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <Form.Control
                                 type="text"
                                 required
-                                value={updatedProfile.surname}
+                                value={profile.surname}
                                 onChange={(e) => handleInput("surname", e.target.value)}
                             />
                         </Form.Group>
                         <p className="profile-form-small-notice" >Name pronunciation</p>
                         <InfoSquareFill /> <span>This can only be added using our mobile app</span>
-                        <Form.Group controlId="profile-edit-form-pronouns">
+                        {/* <Form.Group controlId="profile-edit-form-pronouns">
                             <Form.Label>Pronouns</Form.Label>
                             <Form.Control as="select" placeholder="Please select">
                                 <option>She/Her</option>
@@ -76,8 +113,8 @@ const ProfileEditForm = ({ profileDetails }) => {
                             </Form.Control>
                             <p className="profile-form-small-notice" >Let others know how to refer to you.</p>
                             <p><Link to="/">Learn more</Link></p>
-                        </Form.Group>
-                        <div id="showEducation" className="mb-3">
+                        </Form.Group> */}
+                        {/* <div id="showEducation" className="mb-3">
                             <input
                                 type="checkbox"
                                 id="showEducationCheckbox"
@@ -88,21 +125,29 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <label for="showEducationCheckbox" className="ml-2 mt-3">
                                 Show education in my intro
                             </label>
-                        </div>
+                        </div> */}
                         <Form.Group controlId="location">
                             <Form.Label>Location</Form.Label>
                             <Form.Control
                                 type="text"
                                 placeholder="Ex: London, United Kingdom"
                                 required
-                                value={updatedProfile.area}
+                                value={profile.area}
                                 onChange={(e) => handleInput("area", e.target.value)}
                             />
+                            <Form.Label>Bio</Form.Label>
                             <Form.Control
                                 type="text"
-                                placeholder="enter your postcode"
-                                value={updatedProfile.bio}
+                                placeholder="Bio"
+                                value={profile.bio}
                                 onChange={(e) => handleInput("bio", e.target.value)}
+                            />
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="Title"
+                                value={profile.title}
+                                onChange={(e) => handleInput("title", e.target.value)}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -110,7 +155,7 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <p>Edit your email address</p>
                             <Form.Control
                                 type="text"
-                                value={updatedProfile.email || ''}
+                                value={profile.email || ''}
                                 onChange={(e) => handleInput("email", e.target.value)}
                             />
                         </Form.Group>
@@ -129,11 +174,11 @@ const ProfileEditForm = ({ profileDetails }) => {
                                 id="choose-file-btn"
                                 type="file"
                                 onChange={(event) => {
-                                    setFormData(event.target.files[0]);
+                                    setSelectedFile(event.target.files[0]);
                                 }}
                             />
                         </Form.Group>
-                        <Button className="save-profile-btn btn-sm" onClick={uploadProfileImage}>Upload image</Button>
+                        {/* <Button className="save-profile-btn btn-sm" onClick={uploadProfileImage}>Upload image</Button> */}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer className={"d-flex justify-content-end"}>

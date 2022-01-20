@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import useFetch from "../hooks/useFetch";
 
-const LeftComponent = () => {
-  
+const LeftComponent = ({ userName }) => {
+
   const [data, setData] = useState(null)
 
-  const { data: myData } = useFetch('profiles/test123')
+  const { data: myData } = useFetch(`profiles/${userName}`)
 
   useEffect(() => {
     setData(myData)
