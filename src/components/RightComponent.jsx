@@ -5,35 +5,7 @@ import "../styles/RightComponent.css";
 
 const RightComponent = () => {
   const [person, setPerson] = useState([]);
-  // let token = process.env.REACT_APP_TOKEN);
-  const getPerson = async () => {
-    try {
-      let response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
-        {
-          headers: {
-            method: "GET",
-            "Content-type": "application/json",
-            Authorization:
-              `Bearer ${ process.env.REACT_APP_TOKEN }`,
-          },
-        }
-      );
-      if (response.ok) {
-        let data = await response.json();
-        setPerson(data);
-      } else {
-        console.log("ERROR");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getPerson();
-  }, []);
-
+ 
   return (
     <div className="leftcomponent mt-5" style={{ background: "transparent" }}>
       <div className="addfeed">
@@ -49,11 +21,6 @@ const RightComponent = () => {
               />
               <h6 className="mb-0 ml-2">
                 {m.name + " " + m.surname}
-                {/* <img
-                  src="https://w7.pngwing.com/pngs/329/312/png-transparent-in-logo-linkedin-computer-icons-social-media-professional-network-service-youtube-linkedin-miscellaneous-blue-angle.png"
-                  alt="linkedin"
-                  style={{ width: "15px", marginLeft: "2px" }}
-                /> */}
                 <p className="mb-1 text-muted" style={{ fontSize: "11px" }}>
                   {m.title}
                 </p>

@@ -3,34 +3,14 @@ import { Row, Col, Container } from "react-bootstrap";
 import { useParams } from "react-router";
 import SingleExperience from "./SingleExperience";
 import ExperienceForm from "./ExperienceForm";
-import { getExperiences } from "../api/getExperiences";
 import Loading from "./Loading";
 import Error from "./Error";
 
 const ExperiencesList = () => {
+  
   const [experiences, setExperiences] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
-  const params = useParams();
-
-  const loadExperiences = async () => {
-    if (loading) {
-      try {
-        const resp = await getExperiences(params.id);
-        setExperiences(resp);
-        return resp;
-      } catch (error) {
-        setError(error);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-  // eslint-disable-next-line
-  useEffect(() => loadExperiences(), []);
-
-  console.log(experiences);
 
   if (loading) return <Loading />;
   if (error) return <Error />;

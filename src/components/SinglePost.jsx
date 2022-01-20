@@ -1,73 +1,9 @@
 import "../App.css";
 import { useEffect, useState } from "react";
-import Loading from "./Loading";
-
 import { Col, Form, Row, Image } from "react-bootstrap";
 import LikeShare from "./LikeShare";
 
 const SinglePost = ({ post }) => {
-  const [userProfile, setUserProfile] = useState({});
-  const [loading, setLoading] = useState(true);
-
-  const getUserProfile = async () => {
-    try {
-      const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-          },
-        }
-      );
-      if (response.ok) {
-        const userData = await response.json();
-        setUserProfile(userData);
-      } else {
-        console.log("RESPONSE ERROR!");
-      }
-    } catch (error) {
-      console.log("FETCH ERROR:" + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getUserProfile();
-    // eslint-disable-next-line
-  }, []);
-
-  console.log(userProfile);
-
-  if (loading) return <Loading />;
-
-  const timeSince = (date) => {
-    var seconds = Math.floor((new Date(post.createdAt) - date) / 1000);
-
-    var interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return Math.floor(interval) + "years ";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return Math.floor(interval) + "months ";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return Math.floor(interval) + "days ";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + "hrs ";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + "mins ";
-    }
-    return Math.floor(seconds) + "secs ";
-  };
-  var aDay = 24 * 60 * 60 * 1000;
 
   return (
     <div
@@ -94,7 +30,7 @@ const SinglePost = ({ post }) => {
             {" "}
             {post.user.bio}
             <br />
-            {timeSince(new Date(Date.now() - aDay))}
+            {/* {timeSince(new Date(Date.now() - aDay))} */}
             <i className="fas fa-globe-europe"></i>
           </p>
         </Col>
@@ -111,7 +47,7 @@ const SinglePost = ({ post }) => {
       <Row className=" d-flex justify-content-between align-items-center p-0 m-1">
         <Col className="p-0" xs="auto">
           <Image
-            src={userProfile.image}
+            src={post.user.image}
             style={{ borderRadius: "50%", width: "48px" }}
           />
         </Col>

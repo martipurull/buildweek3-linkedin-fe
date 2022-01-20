@@ -23,72 +23,16 @@ import {
   PlayBtnFill,
   ThreeDots,
 } from "react-bootstrap-icons";
-import { getProfileMe } from "../api/getProfileMe";
-import { postPostImage } from "../api/postPostImage";
-import postPost from "../api/postPost";
 import Loading from "./Loading";
 import Error from "./Error";
 
 const NewPost = () => {
+
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [show, setShow] = useState(false);
-  const handleModal = (type) => setShow(type);
-
-  const [addPhoto, setAddPhoto] = useState(false);
-
-  const [post, setPost] = useState("");
-
-  const loadProfileMe = async () => {
-    try {
-      const resp = await getProfileMe();
-      setUser(resp);
-      return resp;
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const uploadPost = async () => {
-    try {
-      const resp = await postPost({ text: post });
-      if (!resp.ok) {
-        setError("failed to upload!");
-      }
-      console.log(resp);
-      uploadPostImage(resp._id);
-      return resp;
-    } catch (error) {
-      console.log(error);
-      setError(error);
-    } finally {
-      handleModal(false);
-      setPost("");
-      setError(false);
-    }
-  };
-
-  useEffect(() => loadProfileMe(), []);
-
   const [formData, setFormData] = useState({});
-
-  const uploadPostImage = async (postID) => {
-    try {
-      const imgData = new FormData();
-      imgData.append("post", formData);
-      const resp = await postPostImage(postID, imgData);
-      console.log(resp);
-      return resp;
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (loading) return <Loading />;
   if (error) return <Error />;
@@ -157,7 +101,7 @@ const NewPost = () => {
                 variant="outline-secondary"
               >
                 <Info size={24} />
-                <span>Eleftherios Myriounis</span>
+                <span>{user.name}</span>
                 <CaretDownFill className="ml-2" />
               </Button>
             </div>

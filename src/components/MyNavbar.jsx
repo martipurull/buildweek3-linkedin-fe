@@ -22,21 +22,9 @@ import {
 import { useEffect, useState } from "react";
 
 const MyNavbar = () => {
+
   const [userProfile, setUserProfile] = useState({});
-
-  // const [showModal, setShowModal] = useState(false);
-
   const [showPopover, setShowPopover] = useState(false);
-  // const [target, setTarget] = useState(null);
-  // const ref = useRef(null);
-
-  // const handlePopover = (event) => {
-  //   setShowPopover(!showPopover);
-  //   setTarget(event.target);
-  // };
-
-  // const handleShow = () => setShowModal(true);
-  // const handleClose = () => setShowModal(false);
 
   const mePopover = (
     <Popover id="popover-contained">
@@ -86,32 +74,6 @@ const MyNavbar = () => {
       </Popover.Content>
     </Popover>
   );
-
-  const getUserProfile = async () => {
-    try {
-      const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-          },
-        }
-      );
-      if (response.ok) {
-        const userData = await response.json();
-        setUserProfile(userData);
-      } else {
-        console.log("RESPONSE ERROR!");
-      }
-    } catch (error) {
-      console.log("FETCH ERROR:" + error.message);
-    }
-  };
-
-  useEffect(() => {
-    getUserProfile();
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <>
@@ -202,50 +164,6 @@ const MyNavbar = () => {
         </Container>
       </Navbar>
 
-      {/* <Modal id="modal-list-group-main-container" show={showModal} onHide={handleClose}>
-        <ListGroup.Item>
-          <div className="d-flex modal-profile-container">
-            <div>
-              <img id="modal-profile-pic" src={userProfile.image} alt="profile" />
-            </div>
-            <div className="ml-3">
-              <h5>{userProfile.name} {userProfile.surname}</h5>
-              <p>{userProfile.title}</p>
-            </div>
-          </div>
-          <div id="modal-view-profile-btn-container">
-            <Link to="/profile/id">
-              <Button id="modal-view-profile-btn" variant="outline-primary">View Profile</Button>
-            </Link>
-          </div>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <h5>Account</h5>
-          <p>Settings & Privacy</p>
-          <p>Help</p>
-          <p>Language</p>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <h5>Manage</h5>
-          <p>Posts & Activity</p>
-          <p>Job Posting Account</p>
-        </ListGroup.Item>
-        <ListGroup.Item>
-          <p>Log Out</p>
-        </ListGroup.Item>
-      </Modal> */}
-
-      {/* <div ref={ref}>
-        <Overlay
-          show={showPopover}
-          target={target}
-          placement="bottom"
-          container={ref.current}
-          containerPadding={20}
-        >
-
-        </Overlay>
-      </div> */}
     </>
   );
 };

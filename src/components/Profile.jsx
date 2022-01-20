@@ -6,20 +6,19 @@ import RightComponent from "./RightComponent";
 import ExperiencesList from "./ExperiencesList";
 
 const Profile = () => {
-  const params = useParams();
+  const { userName } = useParams()
 
-  useEffect(() => {}, [params]);
   return (
     <>
       <Container>
         <Row>
           <Col xs={12} md={8}>
-            <ProfileJumbotron id={params.id} />
-            <ExperiencesList />
+            <ProfileJumbotron userName={userName} />
+            {/* <ExperiencesList />
           </Col>
           <Col xs={12} md={4}>
-            <RightComponent />
-          </Col>
+            <RightComponent /> */}
+          </Col> 
         </Row>
       </Container>
     </>

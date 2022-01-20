@@ -1,46 +1,26 @@
-//Put the icon
-// onclick of an icon
-//put a form
-
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "../styles/ProfileJumbotron.css";
-// import { Link } from 'react-router-dom';
 import { useEffect, useState } from "react";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import JumbotronEditForm from "./JumbotronEditForm";
 import ProfileEditForm from './ProfileEditForm'
+import useFetch from "../hooks/useFetch";
 
 const ProfileJumbotron = ({ id }) => {
+
   const [info, setInfo] = useState([]);
-  let myToken = process.env.REACT_APP_TOKEN;
-  let profileUrl = "https://striveschool-api.herokuapp.com/api/profile/";
 
-  const fetching = async () => {
-    try {
-      const response = await fetch(profileUrl + id, {
-        headers: {
-          method: "GET",
-          "Content-type": "application/json",
-          Authorization: `Bearer ${ myToken }`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setInfo(data);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  const { data: myData } = useFetch(`http://localhost:3001/profiles/test123`)
 
   useEffect(() => {
-    fetching(); // eslint-disable-next-line
-  }, [id]);
+    setInfo(myData)
+  }, [id, myData])
+
   return (
     <>
-      {/* <h2>ProfileJumbotron {id}</h2> */}
+    {
+      info && (
+        <>
       <Container
         className="profile-jumbotron pb-4 mt-5"
         style={{ background: "#fff" }}
@@ -52,7 +32,6 @@ const ProfileJumbotron = ({ id }) => {
           <img src={info.image} alt="" className="profile-img img-fluid" />
         </div>
         <div className="jumbo-form-container">
-          {/* <JumbotronEditForm className="jumbo-pencil" /> */}
           <ProfileEditForm className="jumbo-pencil" profileDetails={info} />
         </div>
         <Row className="profile-jumbotron-rows profile-jumbotron-info">
@@ -90,6 +69,9 @@ const ProfileJumbotron = ({ id }) => {
           </Col>
         </Row>
       </Container>
+        </>
+      )
+    }
     </>
   );
 };

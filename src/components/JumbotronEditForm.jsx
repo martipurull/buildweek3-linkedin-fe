@@ -2,61 +2,9 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { PencilFill } from "react-bootstrap-icons";
 import { Link } from "react-bootstrap-icons";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { postProfileImage } from "../api/postProfileImage";
 
 const JumbotronEditForm = () => {
-  const [userProfile, setUserProfile] = useState({});
-
-  const getUserProfile = async () => {
-    try {
-      const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-          },
-        }
-      );
-      if (response.ok) {
-        const userData = await response.json();
-        setUserProfile(userData);
-      } else {
-        console.log("RESPONSE ERROR!");
-      }
-    } catch (error) {
-      console.log("FETCH ERROR:" + error.message);
-    }
-  };
-
-  useEffect(() => {
-    getUserProfile();
-    console.log(userProfile);
-    // eslint-disable-next-line
-  }, []);
-
-  const [show, setShow] = useState(false);
-
-  const [formData, setFormData] = useState({});
-  console.log(formData);
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  const uploadProfileImage = async () => {
-    try {
-      const imgData = new FormData();
-      imgData.append("profile", formData);
-      const resp = await postProfileImage(userProfile._id, imgData);
-      console.log(resp);
-      return resp;
-    } catch (error) {
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  console.log(loading, error);
+  
 
   return (
     <>

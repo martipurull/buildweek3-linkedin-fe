@@ -4,40 +4,10 @@ import { useEffect, useState } from "react";
 import Loading from "./Loading";
 
 const LeftComponent = () => {
-  const [userProfile, setUserProfile] = useState({});
-  const [loading, setLoading] = useState(true);
+  
+  const [loading, setLoading] = useState()
 
-  const getUserProfile = async () => {
-    try {
-      const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/me",
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-          },
-        }
-      );
-      if (response.ok) {
-        const userData = await response.json();
-        setUserProfile(userData);
-      } else {
-        console.log("RESPONSE ERROR!");
-      }
-    } catch (error) {
-      console.log("FETCH ERROR:" + error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getUserProfile();
-    // eslint-disable-next-line
-  }, []);
-
-  console.log(userProfile);
-
-  if (loading) return <Loading />;
+  if (loading) return <Loading />
 
   return (
     <>

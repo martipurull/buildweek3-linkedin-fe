@@ -5,98 +5,9 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { getProfile } from '../api/getProfile'
-import { putProfile } from '../api/putProfile'
-import { postProfileImage } from '../api/postProfileImage'
 
 
 const ProfileEditForm = ({ profileDetails }) => {
-    const [show, setShow] = useState(false)
-    const handleShow = () => setShow(true)
-    const handleClose = () => setShow(false)
-    // const [newHeadline, setNewHeadline] = useState(headline || '');
-    // const handleHeadline = (inputHeadline) => {
-    //     setNewHeadline(inputHeadline);
-    // };
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const params = useParams();
-
-    const [profileToEdit, setProfileToEdit] = useState({
-        name: "",
-        surname: "",
-        email: "",
-        bio: "",
-        title: "",
-        area: "",
-    });
-
-    const [showEducation, setShowEducation] = useState(true);
-
-    const handleEducation = (checkboxValue) => {
-        setShowEducation(checkboxValue);
-    }
-
-    const handleInput = (fieldKey, inputValue) => {
-        setProfileToEdit({
-            ...profileToEdit,
-            [fieldKey]: inputValue,
-        });
-    };
-
-    const [formData, setFormData] = useState({})
-    console.log(formData)
-
-    const uploadProfileImage = async () => {
-        try {
-            const imgData = new FormData();
-            imgData.append("profile", formData);
-            console.log(imgData)
-            const resp = await postProfileImage(params.id, imgData);
-            console.log(resp);
-            return resp;
-        } catch (error) {
-            setError(error);
-            console.log(error)
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleSubmit = async () => {
-        setLoading(true);
-        try {
-            const resp = await putProfile(params.id, profileToEdit)
-            if (!resp.ok) {
-                throw new Error("failed to fetch");
-            }
-            return resp;
-        } catch (error) {
-            console.log(error);
-            setError(error);
-        } finally {
-            setLoading(false);
-            handleClose();
-        }
-    };
-
-    useEffect(() => {
-        const fetch = async () => {
-            const data = await getProfile(params.id);
-            setProfileToEdit({
-                name: data.name || "",
-                surname: data.surname || "",
-                email: data.email || "",
-                bio: data.bio || "",
-                title: data.title || "",
-                area: data.area || "",
-            });
-            console.log(data)
-        };
-        fetch();
-    }, [])
-
-
 
 
     return (
@@ -146,14 +57,6 @@ const ProfileEditForm = ({ profileDetails }) => {
                             <p className="profile-form-small-notice" >Let others know how to refer to you.</p>
                             <p><Link to="/">Learn more</Link></p>
                         </Form.Group>
-                        {/* <Form.Group controlId="headline">
-                            <Form.Label>Headline</Form.Label>
-                            <Form.Control
-                                type="text"
-                                value={newHeadline}
-                                onChange={(e) => handleHeadline(e.target.value)}
-                            />
-                        </Form.Group> */}
                         <div id="showEducation" className="mb-3">
                             <input
                                 type="checkbox"

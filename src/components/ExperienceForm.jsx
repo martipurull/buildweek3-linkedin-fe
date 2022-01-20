@@ -1,26 +1,26 @@
-import { useState, useEffect } from "react";
-import "../styles/experience-form.css";
-import Form from "react-bootstrap/Form";
-import Modal from "react-bootstrap/Modal";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Alert from "react-bootstrap/Alert";
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import { PencilFill, PlusLg } from "react-bootstrap-icons";
-import { Link, useParams } from "react-router-dom";
-import { getExperience } from "../api/getExperience";
-import { putExperience } from "../api/putExperience";
-import { postExperience } from "../api/postExperience";
-import { deleteExperience } from "../api/deleteExperience";
-import { postExperienceImage } from "../api/postExperienceImage";
-import Loading from "./Loading";
-import Error from "./Error";
+import { useState, useEffect } from "react"
+import "../styles/experience-form.css"
+import Form from "react-bootstrap/Form"
+import Modal from "react-bootstrap/Modal"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import Alert from "react-bootstrap/Alert"
+import Button from "react-bootstrap/Button"
+import ButtonGroup from "react-bootstrap/ButtonGroup"
+import { PencilFill, PlusLg } from "react-bootstrap-icons"
+import { Link, useParams } from "react-router-dom"
+import { putExperience } from "../api/putExperience"
+import { postExperience } from "../api/postExperience"
+import { deleteExperience } from "../api/deleteExperience"
+import { postExperienceImage } from "../api/postExperienceImage"
+import Loading from "./Loading"
+import Error from "./Error"
+import useFetch from "../hooks/useFetch"
 
 const ExperienceForm = ({ requestType, headline, id }) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const params = useParams();
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const params = useParams()
 
   const [experienceToSubmit, setExperienceToSubmit] = useState({
     role: "",
@@ -29,11 +29,13 @@ const ExperienceForm = ({ requestType, headline, id }) => {
     endDate: null,
     description: "",
     area: "",
-  });
+  })
+  
+  const { data: experienceData } = useFetch(`profiles/${params.userName}/experiences`)
 
   useEffect(() => {
     const fetch = async () => {
-      const data = await getExperience(params.id, id);
+      const data = experienceData
       setExperienceToSubmit({
         role: data.role || "",
         company: data.company || "",
@@ -41,85 +43,85 @@ const ExperienceForm = ({ requestType, headline, id }) => {
         endDate: (data.endDate && data.endDate.slice(0, 10)) || null,
         description: data.description || "",
         area: data.area || "",
-      });
-    };
-    if (requestType === "put") {
-      fetch();
+      })
     }
-  }, [requestType, id, params.id]);
+    if (requestType === "put") {
+      fetch()
+    }
+  }, [requestType, id, params.userName, experienceData])
 
-  const [stillWorkingAtRole, setStillWorkingAtRole] = useState(true);
+  const [stillWorkingAtRole, setStillWorkingAtRole] = useState(true)
 
   const handleEndDate = (checkboxValue) => {
-    setStillWorkingAtRole(checkboxValue);
-  };
+    setStillWorkingAtRole(checkboxValue)
+  }
 
-  const [newHeadline, setNewHeadline] = useState(headline);
+  const [newHeadline, setNewHeadline] = useState(headline)
   // const [newIndustry, setNewIndustry] = useState(industry)
-  const [textAreaValueLength, setTextAreaValueLength] = useState(0);
+  const [textAreaValueLength, setTextAreaValueLength] = useState(0)
 
-  const [show, setShow] = useState(false);
-  const [notify, setNotify] = useState(true);
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const [show, setShow] = useState(false)
+  const [notify, setNotify] = useState(true)
+  const handleShow = () => setShow(true)
+  const handleClose = () => setShow(false)
 
   const handleSubmit = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const resp =
         requestType === "put"
           ? await putExperience(params.id, id, experienceToSubmit)
-          : await postExperience(params.id, experienceToSubmit);
+          : await postExperience(params.id, experienceToSubmit)
       if (!resp.ok) {
-        throw new Error("failed to fetch");
+        throw new Error("failed to fetch")
       }
-      return resp;
+      return resp
     } catch (error) {
-      console.log(error);
-      setError(error);
+      console.log(error)
+      setError(error)
     } finally {
-      setLoading(false);
-      uploadProfileImage();
-      handleClose();
+      setLoading(false)
+      uploadProfileImage()
+      handleClose()
     }
-  };
+  }
 
   const handleDelete = async () => {
     try {
-      const resp = await deleteExperience(params.id, id);
+      const resp = await deleteExperience(params.id, id)
       if (!resp.ok) {
-        throw new Error("failed to delete!");
+        throw new Error("failed to delete!")
       }
-      return resp;
+      return resp
     } catch (error) {
-      console.log(error);
-      setError(error);
+      console.log(error)
+      setError(error)
     }
-  };
+  }
 
   const handleNotify = () => {
-    setNotify(!notify);
-  };
+    setNotify(!notify)
+  }
 
   const handleHeadline = (inputHeadline) => {
-    setNewHeadline(inputHeadline);
-  };
+    setNewHeadline(inputHeadline)
+  }
   // const handleIndustry = (inputIndustry) => {
   //     setNewIndustry(inputIndustry)
   // }
 
   const handleTextAreaValueLength = (inputTextAreaValue) => {
-    setTextAreaValueLength(inputTextAreaValue);
-  };
+    setTextAreaValueLength(inputTextAreaValue)
+  }
 
   const handleInput = (fieldKey, inputValue) => {
     setExperienceToSubmit({
       ...experienceToSubmit,
       [fieldKey]: inputValue,
-    });
-  };
+    })
+  }
 
-  const [userProfile, setUserProfile] = useState({});
+  const [userProfile, setUserProfile] = useState({})
 
   const getUserProfile = async () => {
     try {
@@ -130,43 +132,43 @@ const ExperienceForm = ({ requestType, headline, id }) => {
             Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
           },
         }
-      );
+      )
       if (response.ok) {
-        const userData = await response.json();
-        setUserProfile(userData);
+        const userData = await response.json()
+        setUserProfile(userData)
       } else {
-        console.log("RESPONSE ERROR!");
+        console.log("RESPONSE ERROR!")
       }
     } catch (error) {
-      console.log("FETCH ERROR:" + error.message);
+      console.log("FETCH ERROR:" + error.message)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   useEffect(() => {
-    getUserProfile();
+    getUserProfile()
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({})
 
   const uploadProfileImage = async () => {
     try {
-      const imgData = new FormData();
-      imgData.append("experience", formData);
-      const resp = await postExperienceImage(userProfile._id, id, imgData);
-      console.log(resp);
-      return resp;
+      const imgData = new FormData()
+      imgData.append("experience", formData)
+      const resp = await postExperienceImage(userProfile._id, id, imgData)
+      console.log(resp)
+      return resp
     } catch (error) {
-      setError(error);
+      setError(error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
-  if (loading) return <Loading />;
-  if (error) return <Error />;
+  if (loading) return <Loading />
+  if (error) return <Error />
 
   return (
     <>
@@ -371,7 +373,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
                 id="choose-file-btn"
                 type="file"
                 onChange={(event) => {
-                  setFormData(event.target.files[0]);
+                  setFormData(event.target.files[0])
                 }}
               />
             </Form.Group>
@@ -400,7 +402,7 @@ const ExperienceForm = ({ requestType, headline, id }) => {
         </Modal.Footer>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ExperienceForm;
+export default ExperienceForm
