@@ -13,6 +13,7 @@ import Loading from "./Loading"
 import Error from "./Error"
 import useFetch from "../hooks/useFetch"
 import useDelete from "../hooks/useDelete"
+import useCreateOrUpdate from "../hooks/useCreateOrUpdate"
 
 const ExperienceForm = ({ requestType, id, userName }) => {
   
@@ -21,11 +22,16 @@ const ExperienceForm = ({ requestType, id, userName }) => {
   const [experience, setExperience] = useState({})
   const [stillWorkingAtRole, setStillWorkingAtRole] = useState(true)
   const [descriptionValueLength, setDescriptionValueLength] = useState(0)
-  const [formData, setFormData] = useState(null)
+  const [selectedFile, setSelectedFile] = useState(null)
 
-    const { data, loading: expLoading, error: expError } = useFetch(id ? `profiles/${userName}/experiences/${id}` : `profiles/${userName}/experiences`)
+    const url = id ? `profiles/${userName}/experiences/${id}` : `profiles/${userName}/experiences`
+    const method = id ? 'PUT' : 'POST'
+
+    const { data, loading: expLoading, error: expError } = useFetch(url)
 
     const { performDelete } = useDelete(`profiles/${userName}/experiences/${id}`)
+
+    const { performCreateOrUpdate } = useCreateOrUpdate()
 
 
     useEffect(() => {
@@ -47,11 +53,17 @@ const ExperienceForm = ({ requestType, id, userName }) => {
     })
   }
 
-  const handleSubmit = async () => {}
-  
-  const handleDelete = async () => performDelete()
-
-
+  const handleSubmit = async () => {
+    let formData = new FormData()
+    formData.append('experienceCover', selectedFile || '')
+    formData.append('role', experience.role)
+    formData.append('company', experience.company)
+    formData.append('startDate', experience.startDate)
+    formData.append('endDate', experience.endDate)
+    formData.append('description', experience.description)
+    formData.append('area', experience.area)
+    performCreateOrUpdate(url, method)
+  }
   // if (loading) return <Loading />
   if (error) return <Error />
 
@@ -232,7 +244,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
               <Form.Control
                 id="choose-file-btn"
                 type="file"
-                onChange={(event) => setFormData(event.target.files[0])}
+                onChange={(event) => setSelectedFile(event.target.files[0])}
               />
             </Form.Group>
           </Form>
@@ -245,7 +257,7 @@ const ExperienceForm = ({ requestType, id, userName }) => {
           }`}
         >
           {requestType === "put" && (
-            <Button id="delete-experience-btn" onClick={handleDelete}>
+            <Button id="delete-experience-btn" onClick={() => performDelete()}>
               Delete experience
             </Button>
           )}
