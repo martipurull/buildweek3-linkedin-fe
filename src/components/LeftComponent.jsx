@@ -2,12 +2,17 @@ import { Card, Container, Image, Accordion, Button } from "react-bootstrap";
 import "../App.css";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
+import useFetch from "../hooks/useFetch";
 
 const LeftComponent = () => {
   
-  const [loading, setLoading] = useState()
+  const [data, setData] = useState(null)
 
-  if (loading) return <Loading />
+  const { data: myData } = useFetch('profiles/test123')
+
+  useEffect(() => {
+    setData(myData)
+  }, [myData])
 
   return (
     <>
@@ -22,16 +27,16 @@ const LeftComponent = () => {
       >
         <div className="d-flex justify-content-center py-2 w-100">
           <Image
-            src={userProfile.image}
+            src={data?.image}
             alt="image of the user"
             style={{ width: "30%", borderRadius: "50%" }}
           />
         </div>
         <h6 className="mt-2 text-center mb-0">
-          {`${userProfile.name} ${userProfile.surname}`}
+          {`${data?.name} ${data?.surname}`}
         </h6>
         <p className="text-muted text-center m-0" style={{ fontSize: "12px" }}>
-          {userProfile.title}
+          {data?.title}
         </p>
         {/* <div className="backgroundImg"> </div> */}
         <hr className="m-2" />

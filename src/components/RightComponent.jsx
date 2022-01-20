@@ -1,10 +1,17 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../styles/RightComponent.css";
+import "../styles/RightComponent.css"
+import useFetch from "../hooks/useFetch";
 
 const RightComponent = () => {
-  const [person, setPerson] = useState([]);
+  const [people, setPeople] = useState([]);
+
+  const { data } = useFetch('profiles')
+
+  useEffect(() => {
+    setPeople(data)
+  }, [data])
  
   return (
     <div className="leftcomponent mt-5" style={{ background: "transparent" }}>
@@ -12,7 +19,7 @@ const RightComponent = () => {
         <h6>Add your feed</h6>
 
         <Container>
-          {person.slice(0, 4).map((m, i) => (
+          {people?.slice(0, 4).map((m, i) => (
             <Row key={i} className="p-2">
               <img
                 src={m.image}
