@@ -160,7 +160,7 @@ const NewPost = () => {
           </Form.Group>
 
           <Button className="hashtagButton" variant="outline-primary">
-            Add hashtage
+            Add hashtag
           </Button>
           <div className="d-flex align-items-center">
             <div className="border-right d-flex align-items-center mt-3 mr-2">
@@ -249,6 +249,7 @@ const NewPost = () => {
           </div>
         </Modal.Body>
       </Modal>
+
     </>
   );
 };
