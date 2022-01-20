@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Button, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../styles/RightComponent.css"
 import useFetch from "../hooks/useFetch";
 
 const RightComponent = () => {
+
+  const { pathname } = useLocation()
+  
   const [people, setPeople] = useState([]);
 
   const { data } = useFetch('profiles')
@@ -59,7 +62,7 @@ const RightComponent = () => {
           style={{ width: "100%" }}
         />
       </div>
-      <footer className="footer">
+      { !pathname.startsWith('/profile') && <footer className="footer">
         <Row>
           <p
             className="col m-0 p-0 text-right about"
@@ -143,7 +146,7 @@ const RightComponent = () => {
             </p>
           </Row>
         </Container>
-      </footer>
+      </footer>}
     </div>
   );
 };

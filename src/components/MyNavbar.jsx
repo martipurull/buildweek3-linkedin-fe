@@ -8,7 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   BellFill,
   BriefcaseFill,
@@ -23,6 +23,8 @@ import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 
 const MyNavbar = () => {
+
+  const { pathname } = useLocation()
 
   const [userProfile, setUserProfile] = useState()
   const [showPopover, setShowPopover] = useState(false)
@@ -108,7 +110,7 @@ const MyNavbar = () => {
             </Form.Group>
           </Form>
           <div id="navbar-centre" className="ml-auto">
-            <Link to="/">
+            <Link to="/" className={pathname !== '/' && "text-muted"}>
               <div className="navbar-icon-container mt-2 text-center">
                 <HouseDoorFill size={22} className="navbar-icon" />
                 Home
@@ -118,10 +120,12 @@ const MyNavbar = () => {
               <PeopleFill size={22} className="navbar-icon" />
               My Network
             </div>
+            <Link to="/jobs" className={!pathname.startsWith('/jobs') && "text-muted"}>
             <div className="navbar-icon-container mt-2 text-center">
               <BriefcaseFill size={22} className="navbar-icon" />
               Jobs
             </div>
+            </Link>
             <div className="navbar-icon-container mt-2 text-center">
               <ChatDotsFill size={22} className="navbar-icon" />
               Messaging

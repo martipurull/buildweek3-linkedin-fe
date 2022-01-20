@@ -6,6 +6,7 @@ import MyNavbar from "./components/MyNavbar";
 import Profile from "./components/Profile";
 import Error from "./components/Error";
 import Feed from "./components/Feed";
+import Jobs from './components/Jobs'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Feed />} />
         <Route path="/profile/:userName" element={<Profile />} />
+        <Route path="/jobs" element={<Jobs />} />
         <Route path="*" element={<Error error="Page not found" />} />
       </Routes>
       <Footer />
