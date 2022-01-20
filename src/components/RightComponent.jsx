@@ -18,7 +18,7 @@ const RightComponent = () => {
  
   return (
     <div className="leftcomponent mt-5" style={{ background: "transparent" }}>
-      <div className="addfeed">
+      { !pathname.startsWith('/search') && <div className="addfeed">
         <h6>Add your feed</h6>
 
         <Container>
@@ -53,7 +53,7 @@ const RightComponent = () => {
             View all recommendations <i className="fas fa-arrow-right"></i>
           </strong>
         </Dropdown.Item>
-      </div>
+      </div>}
 
       <div className="footerimg">
         <img

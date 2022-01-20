@@ -19,18 +19,23 @@ export default function CreateJob() {
     const handleSubmit = async e => {
         e.preventDefault()
         try {
-            // const response = await axios.post(`http://localhost:3001/jobs`, { jobDetails })
-            // navigate(`/jobs/${response.data._id}`)
-            const response = await fetch(`http://localhost:3001/jobs`, {
+            const response = await axios({
+                url: `http://localhost:3001/jobs`,
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(jobDetails)
+                headers: { 'Content-Type': 'application/json' },
+                data: JSON.stringify(jobDetails)
             })
-            if (!response.ok) throw new Error('POST FAILED')
-            const result = await response.json()
-            navigate(`/jobs/${result._id}`)
+            navigate(`/jobs/${response.data._id}`)
+            // const response = await fetch(`http://localhost:3001/jobs`, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(jobDetails)
+            // })
+            // if (!response.ok) throw new Error('POST FAILED')
+            // const result = await response.json()
+            // navigate(`/jobs/${result._id}`)
         } catch (error) {
             console.error(error)
         }

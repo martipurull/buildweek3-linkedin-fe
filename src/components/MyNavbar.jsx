@@ -8,7 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   BellFill,
   BriefcaseFill,
@@ -24,8 +24,10 @@ import useFetch from "../hooks/useFetch";
 
 const MyNavbar = () => {
 
+  const navigate = useNavigate()  
   const { pathname } = useLocation()
-
+  
+  const [query, setQuery] = useState('')
   const [userProfile, setUserProfile] = useState()
   const [showPopover, setShowPopover] = useState(false)
 
@@ -34,6 +36,12 @@ const MyNavbar = () => {
   useEffect(() => {
     setUserProfile(data)
   }, [data])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    navigate(`/search?query=${query}`)
+    setQuery('')
+  }
 
   const mePopover = (
     <Popover id="popover-contained">
@@ -97,7 +105,7 @@ const MyNavbar = () => {
               alt="LinkedIn Logo"
             />
           </Link>
-          <Form inline className="d-none d-lg-block">
+          <Form inline className="d-none d-lg-block" onSubmit={handleSubmit}>
             <Form.Group id="navbar-search-container">
               <InputGroup.Prepend>
                 <Search id="navbar-search-icon" className="mx-2" size={16} />
@@ -107,6 +115,8 @@ const MyNavbar = () => {
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
               />
             </Form.Group>
           </Form>

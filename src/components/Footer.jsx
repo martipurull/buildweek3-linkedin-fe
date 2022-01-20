@@ -10,6 +10,8 @@ const Footer = () => {
 
   if (!pathname.startsWith('/profile')) return null
 
+  // if (!pathname.startsWith('/search')) return null
+
   return (
     <Container
       fluid
