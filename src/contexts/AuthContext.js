@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
+import axios from 'axios'
 
 const AuthContext = createContext()
 
@@ -27,8 +28,15 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
-            setCurrentUser(user)
-            setLoading(false)
+            if (!user) { 
+                setCurrentUser(null)
+            } else {
+                setTimeout(() => {
+                    axios.get(`${process.env.REACT_APP_BASE_URL}/profiles/email?email=${user.email}`)
+                    .then(res => setCurrentUser(res.data))
+                }, 1000)
+                setLoading(false)
+            }
         })
 
         return unsubscribe

@@ -3,12 +3,15 @@ import { Container, Form, Row, Button, Col } from "react-bootstrap"
 import { PencilFill, PlusLg } from "react-bootstrap-icons"
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
 import { useAuth } from '../contexts/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 export default function Register() {
 
     const { signup } = useAuth()
 
     const { performCreateOrUpdate } = useCreateOrUpdate()
+
+    const navigate = useNavigate()
 
     const [selectedFile, setSelectedFile] = useState(null)
     const [userDetails, setUserDetails] = useState({
@@ -29,7 +32,7 @@ export default function Register() {
         })
     }
 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
         e.preventDefault()
         let formData = new FormData()
         formData.append('profileImage', selectedFile || '')
@@ -41,7 +44,8 @@ export default function Register() {
         formData.append('bio', userDetails.bio)
         formData.append('email', userDetails.email)
         performCreateOrUpdate('profiles', 'POST', formData)
-        signup(userDetails.email, password)
+        await signup(userDetails.email, password)
+        navigate('/')
     }
 
 

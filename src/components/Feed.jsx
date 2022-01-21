@@ -8,11 +8,14 @@ import Loading from "./Loading"
 import Error from "./Error"
 import useFetch from "../hooks/useFetch"
 import SkeletonPost from "./SkeletonPost"
+import { useAuth } from "../contexts/AuthContext"
 
 const Feed = () => {
   const [posts, setPosts] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
+
+  const { currentUser } = useAuth()
 
   const { data, error: postsError, loading: postsLoading } = useFetch('posts')
 
