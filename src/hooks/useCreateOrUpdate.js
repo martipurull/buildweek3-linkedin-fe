@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 /** @format */
 
 import { useState, useEffect } from "react";
-=======
-import { useState } from 'react'
->>>>>>> upgrade
 
 export default function useCreateOrUpdate() {
   const [data, setData] = useState(null);
