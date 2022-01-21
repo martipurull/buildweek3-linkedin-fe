@@ -18,10 +18,11 @@ import {
   Info
 } from "react-bootstrap-icons";
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
-import { parseISO, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks, differenceInMonths  } from "date-fns"
+import { parseISO, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks, differenceInMonths } from "date-fns"
 import useJsonCreateOrUpdate from "../hooks/useJsonCreateOrUpdate";
 import useDelete from '../hooks/useDelete'
 import SingleComment from "./SingleComment";
+import { useAuth } from '../contexts/AuthContext'
 
 const SinglePost = ({ post }) => {
 
@@ -29,6 +30,7 @@ const SinglePost = ({ post }) => {
   const { performJsonCreateOrUpdate } = useJsonCreateOrUpdate()
   const { performDelete } = useDelete(`posts/${ post._id }`)
   const [show, setShow] = useState(false)
+  const { currentUser } = useAuth()
 
   //this should be set to whether logged in user is in post.likes array
   const [liked, setLiked] = useState(false)
@@ -97,7 +99,7 @@ const SinglePost = ({ post }) => {
             {post?.user?.bio}
             <br />
             {/* {timeSince(new Date(Date.now() - aDay))} */}
-            <p className='text-muted mb-0'>{diffInM < 60 ? diffInM + 'm' : diffInH < 24 ? diffInH + 'h' : diffInD < 7 ? diffInD + 'd' : diffInW  < 4 ? diffInW + 'w' : diffInMo + 'mo'} &#8226; <i className="fas fa-globe-europe"></i></p>
+            <p className='text-muted mb-0'>{diffInM < 60 ? diffInM + 'm' : diffInH < 24 ? diffInH + 'h' : diffInD < 7 ? diffInD + 'd' : diffInW < 4 ? diffInW + 'w' : diffInMo + 'mo'} &#8226; <i className="fas fa-globe-europe"></i></p>
           </p>
         </Col>
         <Col className="d-flex justify-content-end p-0 pr-4">
@@ -113,7 +115,7 @@ const SinglePost = ({ post }) => {
       <Row className=" d-flex justify-content-between align-items-center p-0 m-1">
         <Col className="p-0" xs="auto">
           <Image
-            src={post?.user?.image}
+            src={currentUser.image}
             style={{ borderRadius: "50%", width: "48px" }}
           />
         </Col>

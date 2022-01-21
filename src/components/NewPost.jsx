@@ -47,7 +47,7 @@ const NewPost = () => {
     let formData = new FormData()
     formData.append('postImage', postImage || '')
     formData.append('text', postText || '')
-    performCreateOrUpdate(`posts/${currentUser.username}`, 'POST', formData)
+    performCreateOrUpdate(`posts/${ currentUser.username }`, 'POST', formData)
     setShow(false)
     setRefreshNum(refreshNum + 1)
     window.location.reload()
@@ -55,7 +55,7 @@ const NewPost = () => {
 
 
   //use useParams to grab username?
-  const { data, loading: newPostLoading, error: newPostError, refetchData } = useFetch(`posts/${currentUser.username}`, refreshNum)
+  const { data, loading: newPostLoading, error: newPostError, refetchData } = useFetch(`posts/${ currentUser.username }`, refreshNum)
 
   useEffect(() => {
     setUser(data)
@@ -77,7 +77,7 @@ const NewPost = () => {
         style={{ background: "#fff" }}
       >
         <div className="d-flex">
-          <Image className="newPostProfileImg" src={user?.image} />
+          <Image className="newPostProfileImg" src={currentUser.image} />
           <Button
             className="newPostStartPostButton text-left mx-2"
             variant="outline-secondary"
@@ -126,7 +126,7 @@ const NewPost = () => {
         <Modal.Body>
           <div className="d-flex align-items-center">
             <div className="p-1">
-              <Image className="newPostProfileImg" src={user?.image} />
+              <Image className="newPostProfileImg" src={currentUser?.image} />
             </div>
             <div className="p-1">
               <Button
@@ -134,7 +134,7 @@ const NewPost = () => {
                 variant="outline-secondary"
               >
                 <Info size={24} />
-                <span>{user?.name}</span>
+                <span>{currentUser?.name}</span>
                 <CaretDownFill className="ml-2" />
               </Button>
             </div>
