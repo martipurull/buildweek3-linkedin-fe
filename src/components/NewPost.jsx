@@ -45,6 +45,7 @@ const NewPost = () => {
     formData.append('text', postText || '')
     performCreateOrUpdate('posts/luraplitmur', 'POST', formData)
     setShow(false)
+    window.location.reload()
   }
 
 
