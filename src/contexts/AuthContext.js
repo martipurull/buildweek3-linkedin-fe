@@ -23,6 +23,7 @@ export function AuthProvider({ children }) {
     }
 
     const logout = () => {
+        return signOut(auth)
     }
 
     useEffect(() => {
@@ -46,7 +47,8 @@ export function AuthProvider({ children }) {
     const value ={
         currentUser,
         signup,
-        login
+        login,
+        logout
     }
 
     return (

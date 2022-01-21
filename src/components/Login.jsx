@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom'
 
 export default function Register() {
 
-    // const { login } = useAuth()
+    const { login } = useAuth()
 
     const navigate = useNavigate()
 
@@ -16,7 +16,7 @@ export default function Register() {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        // await login(email, password)
+        await login(email, password)
         navigate('/')
     }
 

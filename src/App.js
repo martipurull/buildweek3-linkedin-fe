@@ -27,6 +27,7 @@ const App = () => {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          {/* <Route path="/search" element={<Search />} /> */}
           <Route path="/jobs-create" element={<CreateJob />} />
           <Route path="/jobs/:jobId" element={<JobDetails />} />
           <Route path="*" element={<Error error="Page not found" />} />
@@ -38,5 +39,3 @@ const App = () => {
 };
 
 export default App;
-
-{/* <Route path="/search" element={<Search />} /> */}
