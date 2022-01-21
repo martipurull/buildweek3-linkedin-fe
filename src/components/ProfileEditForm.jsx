@@ -8,6 +8,7 @@ import refetchData from "../hooks/useFetch"
 import useFetch from '../hooks/useFetch'
 import Loading from "./Loading"
 import Error from "./Error"
+import useCreateOrUpdate from "../hooks/useCreateOrUpdate"
 
 
 const ProfileEditForm = ({ profileDetails, requestType, userName }) => {
@@ -21,7 +22,7 @@ const ProfileEditForm = ({ profileDetails, requestType, userName }) => {
     const url = userName ? `profiles/${userName}` : `profiles`
     const handleClose = () => { setShow(false) }
     const { error: proError, refetchData } = useFetch(url)
-
+    const { performCreateOrUpdate } = useCreateOrUpdate()
     const handleInput = (field, value) => {
         setProfile({
             ...profile,
@@ -39,20 +40,21 @@ const ProfileEditForm = ({ profileDetails, requestType, userName }) => {
         formData.append('area', profile.area)
         formData.append('profileImage', selectedFile || '')
 
-        var requestOptions = {
-            method: requestType,
-            body: formData,
-            redirect: "follow",
-        };
-        const put = () => {
-            fetch(`http://localhost:3006/profiles/${userName}`, requestOptions)
-                .then((response) => response.text())
-                .then((result) => console.log(result))
-                .catch((error) => console.log("error", error))
-        }
-        put()
+        // const requestOptions = {
+        //     method: requestType,
+        //     body: formData,
+        //     // redirect: "follow",
+        // };
+        // const put = () => {
+        //     fetch(`http://localhost:3006/profiles/${userName}`, requestOptions)
+        //         .then((response) => response.text())
+        //         .then((result) => console.log(result))
+        //         .catch((error) => console.log("error", error))
+        // }
+        // put()
+        performCreateOrUpdate(`profiles/${userName}`, "PUT", formData)
         handleClose()
-        refetchData()
+        // refetchData()
     }
 
     useEffect(() => {
