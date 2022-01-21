@@ -3,11 +3,11 @@ import { Container, Form, Row, Button, Col } from "react-bootstrap"
 import { PencilFill, PlusLg } from "react-bootstrap-icons"
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
 import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function Register() {
 
-    const { signup } = useAuth()
+    // const { signup } = useAuth()
 
     const { performCreateOrUpdate } = useCreateOrUpdate()
 
@@ -44,7 +44,7 @@ export default function Register() {
         formData.append('bio', userDetails.bio)
         formData.append('email', userDetails.email)
         performCreateOrUpdate('profiles', 'POST', formData)
-        await signup(userDetails.email, password)
+        // await signup(userDetails.email, password)
         navigate('/')
     }
 
@@ -132,7 +132,10 @@ export default function Register() {
                     </Form.Group>
 
 
-                    <Button variant="primary" type="submit">Register</Button>
+                    <div className="d-flex justify-content-between">
+                        <Button variant="primary" type="submit">Register</Button>
+                        <Link to='/login'>Login</Link>
+                    </div>
                 </Form>
             </Row>
         </Container>

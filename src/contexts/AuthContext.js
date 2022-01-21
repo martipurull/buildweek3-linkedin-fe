@@ -18,23 +18,24 @@ export function AuthProvider({ children }) {
         return createUserWithEmailAndPassword(auth, email, password)
     }
 
-    const login = () => {
-        
+    const login = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password)
     }
 
     const logout = () => {
-        
     }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
-            if (!user) { 
-                setCurrentUser(null)
-            } else {
+            if (user) { 
                 setTimeout(() => {
                     axios.get(`${process.env.REACT_APP_BASE_URL}/profiles/email?email=${user.email}`)
                     .then(res => setCurrentUser(res.data))
+                    .catch(e => console.error(e))
                 }, 1000)
+                setLoading(false)
+            } else {
+                setCurrentUser(null)
                 setLoading(false)
             }
         })
@@ -44,7 +45,8 @@ export function AuthProvider({ children }) {
 
     const value ={
         currentUser,
-        signup
+        signup,
+        login
     }
 
     return (

@@ -15,7 +15,7 @@ const Feed = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const { currentUser } = useAuth()
+  // const { currentUser } = useAuth()
 
   const { data, error: postsError, loading: postsLoading } = useFetch('posts')
 
