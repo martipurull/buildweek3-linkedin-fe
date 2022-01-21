@@ -35,6 +35,7 @@ const NewPost = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [show, setShow] = useState(false)
+  const [refreshNum, setRefreshNum] = useState(0)
 
   const [postImage, setPostImage] = useState('')
   const [postText, setPostText] = useState('')
@@ -45,17 +46,22 @@ const NewPost = () => {
     formData.append('text', postText || '')
     performCreateOrUpdate('posts/test123', 'POST', formData)
     setShow(false)
+    setRefreshNum(refreshNum + 1)
   }
 
 
   //use useParams to grab username?
-  const { data, loading: newPostLoading, error: newPostError } = useFetch(`profiles/test123`)
+  const { data, loading: newPostLoading, error: newPostError, refetchData } = useFetch(`profiles/test123`, refreshNum)
 
   useEffect(() => {
     setUser(data)
     setLoading(newPostLoading)
     setError(newPostError)
-  }, [data])
+  }, [data, newPostLoading, newPostError])
+
+  useEffect(() => {
+    refetchData()
+  }, [refreshNum])
 
   // if (loading) return <Loading />;
   if (error) return <Error />;
