@@ -1,5 +1,5 @@
 body {
-  background-color: #f3f2ee;
+  background-color: #f3f3f3;
 }
 
 .singleexperience {
@@ -66,4 +66,60 @@ body {
 .hovering:hover {
   background-color: lightgrey;
   cursor: pointer;
+}
+button.main-btn {
+  color: white;
+  background-color: var(--primary-blue);
+}
+
+button.main-btn:hover {
+  background-color: #1c39be;
+}
+
+button.main-btn-outline {
+  color: var(--primary-blue);
+  border: 1px solid var(--primary-blue);
+}
+
+button.main-btn-outline:hover {
+  background-color: #b5bfeeaf;
+}
+
+button.second-btn-outline {
+  color: #838383;
+  border: 1px solid #838383;
+}
+
+button.second-btn-outline:hover {
+  background-color: #e6e4e4e8;
+  border: 1px solid #838383;
+  text-decoration: none;
+}
+
+button.third-btn-outline {
+  color: #3528f7;
+  border: 1px solid #3528f7;
+}
+
+button.third2-btn-outline {
+  color: #838383;
+  border: none;
+}
+
+button.postsection {
+  color: #838383;
+  background-color: #e6e4e4e8;
+  border: 1px solid #838383;
+  text-decoration: none;
+}
+
+button.postsection:hover {
+  color: #838383;
+  background-color: #b5bfeeaf;
+  border: 1px solid #838383;
+  text-decoration: none;
+}
+
+a:hover button.second-btn-outline {
+  text-decoration: none;
 }

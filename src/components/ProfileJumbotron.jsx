@@ -43,7 +43,7 @@ const ProfileJumbotron = ({ userName }) => {
                     {info.area} •
                     <span className="contact-info-link "> Contact info </span>
                   </p>
-                  <p className="my-2 num-of-connections">52 connections</p>
+                  <p className="my-2 num-of-connections">{info?.connections?.length} connections</p>
                   <div className="d-flex justify-content-start w-100">
                     <Button className="jumbotron-btns open-to-btn">Open to</Button>
                     <Button

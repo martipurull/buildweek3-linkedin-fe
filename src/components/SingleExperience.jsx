@@ -1,15 +1,10 @@
 import "../App.css";
-import { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
-import ExperienceForm from "./ExperienceForm";
-import { parseISO } from "date-fns";
+import { useState, useEffect } from "react"
+import { Row, Col } from "react-bootstrap"
+import ExperienceForm from "./ExperienceForm"
+import { parseISO } from "date-fns"
 
-const SingleExperience = ({ experience, userName }) => {
-
-
-  const randomColor = (size) => {
-    return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
-  };
+const SingleExperience = ({ experience, userName, handleChange }) => {
 
   return (
     <Row>
@@ -29,6 +24,7 @@ const SingleExperience = ({ experience, userName }) => {
           id={experience._id}
           requestType={"put"}
           userName={userName}
+          handleChange={handleChange}
         />
       </Col>
     </Row>

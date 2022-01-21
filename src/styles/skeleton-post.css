@@ -1,0 +1,37 @@
+.profile-sub-section {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    border: 1px solid lightgray;
+}
+
+.skeleton-profile-pic {
+    background-color: lightgray;
+    margin: 0.5rem 0;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
+  
+  .skeleton-name {
+    background-color: lightgray;
+    margin: 0.25rem 0;
+    height: 10px;
+  }
+  
+  .skeleton-bio {
+    background-color: lightgray;
+    margin: 0.255rem 0;
+    height: 10px;
+  }
+  
+  .skeleton-text {
+    background-color: lightgray;
+    margin: 0.25rem 0;
+    height: 10px;
+  }
+  
+  .skeleton-action {
+    background-color: lightgray;
+    margin: 0.25rem 0;
+    height: 10px;
+  }

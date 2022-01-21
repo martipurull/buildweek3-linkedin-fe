@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Button, Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "../styles/RightComponent.css"
 import useFetch from "../hooks/useFetch";
+import HomeRightSidebar from "./HomeRightSidebar";
 
 const RightComponent = () => {
+
+  const { pathname } = useLocation()
+  
   const [people, setPeople] = useState([]);
 
   const { data } = useFetch('profiles')
@@ -15,8 +19,8 @@ const RightComponent = () => {
 
   return (
     <div className="leftcomponent mt-5" style={{ background: "transparent" }}>
-      <div className="addfeed">
-        <h6>Add your feed</h6>
+      { pathname !== '/' && <div className="addfeed">
+        <h6>People you may know</h6>
 
         <Container>
           {people?.slice(0, 4).map((person) => (
@@ -50,7 +54,11 @@ const RightComponent = () => {
             View all recommendations <i className="fas fa-arrow-right"></i>
           </strong>
         </Dropdown.Item>
-      </div>
+      </div>}
+
+      {
+        pathname === '/' && <HomeRightSidebar />
+      }
 
       <div className="footerimg">
         <img
@@ -59,7 +67,7 @@ const RightComponent = () => {
           style={{ width: "100%" }}
         />
       </div>
-      <footer className="footer">
+      { !pathname.startsWith('/profile') && <footer className="footer">
         <Row>
           <p
             className="col m-0 p-0 text-right about"
@@ -143,7 +151,7 @@ const RightComponent = () => {
             </p>
           </Row>
         </Container>
-      </footer>
+      </footer>}
     </div>
   );
 };

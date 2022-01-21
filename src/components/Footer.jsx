@@ -2,8 +2,16 @@ import "../styles/footer.css";
 import { Col, Container, Image, Row, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { QuestionCircleFill, GearFill } from "react-bootstrap-icons";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
+
+  const { pathname} = useLocation()
+
+  if (!pathname.startsWith('/profile')) return null
+
+  // if (!pathname.startsWith('/search')) return null
+
   return (
     <Container
       fluid

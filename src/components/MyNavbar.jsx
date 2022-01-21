@@ -8,7 +8,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   BellFill,
   BriefcaseFill,
@@ -24,14 +24,24 @@ import useFetch from "../hooks/useFetch";
 
 const MyNavbar = () => {
 
+  const navigate = useNavigate()  
+  const { pathname } = useLocation()
+  
+  const [query, setQuery] = useState('')
   const [userProfile, setUserProfile] = useState()
   const [showPopover, setShowPopover] = useState(false)
 
-  const { data } = useFetch(`profiles/luraplitmur`)
+  const { data } = useFetch(`profiles/test123`)
 
   useEffect(() => {
     setUserProfile(data)
   }, [data])
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    navigate(`/search?query=${query}`)
+    setQuery('')
+  }
 
   const mePopover = (
     <Popover id="popover-contained">
@@ -66,17 +76,18 @@ const MyNavbar = () => {
         </ListGroup.Item>
         <ListGroup.Item>
           <h5>Account</h5>
-          <p>Settings &amp; Privacy</p>
-          <p>Help</p>
-          <p>Language</p>
+          <p className="mb-1 text-muted">Settings &amp; Privacy</p>
+          <p className="mb-1 text-muted">Help</p>
+          <p className="mb-1 text-muted">Language</p>
         </ListGroup.Item>
         <ListGroup.Item>
           <h5>Manage</h5>
-          <p>Posts &amp; Activity</p>
-          <p>Job Posting Account</p>
+          <p className="mb-1 text-muted">Posts &amp; Activity</p>
+          <Link to="/jobs-create" className="mb-1 text-muted">Create Job</Link>
+          <p className="mb-1 text-muted">Edit Job</p>
         </ListGroup.Item>
         <ListGroup.Item>
-          <p>Log Out</p>
+          <p className="mb-1 text-muted">Log Out</p>
         </ListGroup.Item>
       </Popover.Content>
     </Popover>
@@ -94,7 +105,7 @@ const MyNavbar = () => {
               alt="LinkedIn Logo"
             />
           </Link>
-          <Form inline className="d-none d-lg-block">
+          <Form inline className="d-none d-lg-block" onSubmit={handleSubmit}>
             <Form.Group id="navbar-search-container">
               <InputGroup.Prepend>
                 <Search id="navbar-search-icon" className="mx-2" size={16} />
@@ -104,11 +115,13 @@ const MyNavbar = () => {
                 type="text"
                 placeholder="Search"
                 className="mr-sm-2"
+                value={query}
+                onChange={e => setQuery(e.target.value)}
               />
             </Form.Group>
           </Form>
           <div id="navbar-centre" className="ml-auto">
-            <Link to="/">
+            <Link to="/" className={pathname !== '/' && "text-muted"}>
               <div className="navbar-icon-container mt-2 text-center">
                 <HouseDoorFill size={22} className="navbar-icon" />
                 Home
@@ -118,10 +131,12 @@ const MyNavbar = () => {
               <PeopleFill size={22} className="navbar-icon" />
               My Network
             </div>
+            <Link to="/jobs" className={!pathname.startsWith('/jobs') && "text-muted"}>
             <div className="navbar-icon-container mt-2 text-center">
               <BriefcaseFill size={22} className="navbar-icon" />
               Jobs
             </div>
+            </Link>
             <div className="navbar-icon-container mt-2 text-center">
               <ChatDotsFill size={22} className="navbar-icon" />
               Messaging

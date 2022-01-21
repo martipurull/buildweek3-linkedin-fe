@@ -1,4 +1,4 @@
-import { Card, Container, Image, Accordion, Button } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import "../App.css";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
