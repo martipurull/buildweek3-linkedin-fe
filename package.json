@@ -11,6 +11,7 @@
     "bootstrap-icons": "^1.7.2",
     "date-fns": "^2.26.0",
     "dotenv": "^14.2.0",
+    "firebase": "^9.6.4",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.4",
     "react-bootstrap-icons": "^1.6.1",
