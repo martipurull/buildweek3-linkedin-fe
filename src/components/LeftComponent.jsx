@@ -8,7 +8,7 @@ const LeftComponent = ({ userName }) => {
 
   const [data, setData] = useState(null)
 
-  const { data: myData } = useFetch(`profiles/${userName}`)
+  const { data: myData } = useFetch(`profiles/${ userName }`)
 
   useEffect(() => {
     setData(myData)
@@ -33,7 +33,7 @@ const LeftComponent = ({ userName }) => {
           />
         </div>
         <h6 className="mt-2 text-center mb-0">
-          {`${data?.name} ${data?.surname}`}
+          {`${ data?.name } ${ data?.surname }`}
         </h6>
         <p className="text-muted text-center m-0" style={{ fontSize: "12px" }}>
           {data?.title}

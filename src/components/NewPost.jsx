@@ -47,6 +47,7 @@ const NewPost = () => {
     performCreateOrUpdate('posts/test123', 'POST', formData)
     setShow(false)
     setRefreshNum(refreshNum + 1)
+    window.location.reload()
   }
 
 

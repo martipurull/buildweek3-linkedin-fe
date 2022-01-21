@@ -1,5 +1,5 @@
 import "../App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LikeShare from "./LikeShare";
 import {
   Image,
@@ -8,33 +8,34 @@ import {
   Button,
   Modal,
   Form,
-  OverlayTrigger,
-  Tooltip,
+  Container
 } from "react-bootstrap";
 import {
-  BarChartLineFill,
-  BlockquoteLeft,
-  BriefcaseFill,
-  CalendarDateFill,
+  BorderBottom,
   CaretDownFill,
-  ChatLeftTextFill,
   ChatTextFill,
-  FileEarmarkTextFill,
   Globe2,
-  ImageFill as ImageIcon,
-  Info,
-  PlayBtnFill,
-  ThreeDots,
+  Info
 } from "react-bootstrap-icons";
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
+import useJsonCreateOrUpdate from "../hooks/useJsonCreateOrUpdate";
+import useDelete from '../hooks/useDelete'
+import SingleComment from "./SingleComment";
 
 const SinglePost = ({ post }) => {
 
   const { performCreateOrUpdate } = useCreateOrUpdate()
+  const { performJsonCreateOrUpdate } = useJsonCreateOrUpdate()
+  const { performDelete } = useDelete(`posts/${ post._id }`)
   const [show, setShow] = useState(false)
+
+  //this should be set to whether logged in user is in post.likes array
+  const [liked, setLiked] = useState(false)
 
   const [postImage, setPostImage] = useState(post?.image)
   const [postText, setPostText] = useState(post?.text)
+
+  const [commentText, setCommentText] = useState('')
 
   const handleSubmit = () => {
     let formData = new FormData()
@@ -42,6 +43,25 @@ const SinglePost = ({ post }) => {
     formData.append('text', postText || '')
     performCreateOrUpdate(`posts/${ post._id }`, 'PUT', formData)
     setShow(false)
+    // window.location.reload()
+  }
+
+  const handleDelete = () => {
+    performDelete()
+    setShow(false)
+    window.location.reload()
+  }
+
+  const submitComment = (event) => {
+    if (event.key === 'Enter') {
+      performJsonCreateOrUpdate(`posts/${ post._id }/comments`, 'POST', commentText)
+      window.location.reload()
+    }
+  }
+
+  const handleLike = () => {
+    performCreateOrUpdate(`posts/${ post._id }/like`, 'POST')
+    setLiked(true)
   }
 
   return (
@@ -82,7 +102,7 @@ const SinglePost = ({ post }) => {
         {post?.image && <Image src={post?.image} style={{ width: "100%" }} />}
       </Row>
       <hr />
-      <LikeShare />
+      <LikeShare onClick={handleLike} />
       <Row className=" d-flex justify-content-between align-items-center p-0 m-1">
         <Col className="p-0" xs="auto">
           <Image
@@ -93,12 +113,16 @@ const SinglePost = ({ post }) => {
         <Col className="pl-0">
           <Form.Control
             type="text"
-            placeholder="Add a comment "
+            placeholder="Add a comment"
             className="m-3 pl-3 pr-2"
             style={{ borderRadius: "30px", border: "1px solid black" }}
+            onChange={e => setCommentText(e.target.value)}
+            onKeyUp={submitComment}
           />
         </Col>
       </Row>
+      {(post.comments.length > 0) && (post.comments.map(comment => <SingleComment key={comment._id} comment={comment} post={post} />))
+      }
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Edit post</Modal.Title>
@@ -161,10 +185,17 @@ const SinglePost = ({ post }) => {
               <div className="newPostBottomIcons d-flex justify-content-center align-items-center text-secondary p-2">
                 <Button
                   className="post-button"
-                  variant="secondary"
+                  variant="warning"
                   onClick={handleSubmit}
                 >
-                  Post
+                  Edit Post
+                </Button>
+                <Button
+                  className="post-button"
+                  variant="danger"
+                  onClick={handleDelete}
+                >
+                  Delete Post
                 </Button>
               </div>
             </div>
