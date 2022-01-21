@@ -3,6 +3,7 @@ import { Container, Row, Button, Dropdown } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/RightComponent.css"
 import useFetch from "../hooks/useFetch";
+import HomeRightSidebar from "./HomeRightSidebar";
 
 const RightComponent = () => {
 
@@ -18,8 +19,8 @@ const RightComponent = () => {
  
   return (
     <div className="leftcomponent mt-5" style={{ background: "transparent" }}>
-      { !pathname.startsWith('/search') && <div className="addfeed">
-        <h6>Add your feed</h6>
+      { pathname !== '/' && <div className="addfeed">
+        <h6>People you may know</h6>
 
         <Container>
           {people?.slice(0, 4).map((m, i) => (
@@ -54,6 +55,10 @@ const RightComponent = () => {
           </strong>
         </Dropdown.Item>
       </div>}
+
+      {
+        pathname === '/' && <HomeRightSidebar />
+      }
 
       <div className="footerimg">
         <img

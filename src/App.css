@@ -1,5 +1,5 @@
 body {
-  background-color: #f3f2ee;
+  background-color: #f3f3f3;
 }
 
 .singleexperience {
@@ -66,4 +66,9 @@ body {
 .hovering:hover {
   background-color: lightgrey;
   cursor: pointer;
+}
+
+button.third2-btn-outline {
+  color: #838383;
+  border: none;
 }

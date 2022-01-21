@@ -50,7 +50,7 @@ const SinglePost = ({ post }) => {
       style={{
         border: "1px solid lightgrey",
         borderRadius: "10px",
-        marginBottom: "50px",
+        marginBottom: "1px",
         background: "#fff",
       }}
     >
