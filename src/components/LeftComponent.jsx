@@ -3,12 +3,16 @@ import "../App.css";
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
 import useFetch from "../hooks/useFetch";
+import { useAuth } from "../contexts/AuthContext";
+
 
 const LeftComponent = ({ userName }) => {
 
+  const { currentUser } = useAuth()
+
   const [data, setData] = useState(null)
 
-  const { data: myData } = useFetch(`profiles/${userName}`)
+  const { data: myData } = useFetch(`profiles/${currentUser.username}`)
 
   useEffect(() => {
     setData(myData)

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Form, Row, Button, Col } from "react-bootstrap"
+import { Container, Form, Row, Button, Col, Spinner } from "react-bootstrap"
 import { PencilFill, PlusLg } from "react-bootstrap-icons"
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
 import { useAuth } from '../contexts/AuthContext'
@@ -13,13 +13,15 @@ export default function Register() {
 
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async e => {
         e.preventDefault()
+        setLoading(true)
         await login(email, password)
         setTimeout(() => {
             navigate('/')
-        }, 1000)
+        }, 2000)
     }
 
 
@@ -38,7 +40,7 @@ export default function Register() {
                     </Form.Group>
 
                     <div className="d-flex justify-content-between">
-                        <Button variant="primary" type="submit">Login</Button>
+                        <Button disabled={loading} variant="primary" type="submit">{loading ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Login'}</Button>
                         <Link to='/register'>Register</Link>
                     </div>
                 </Form>

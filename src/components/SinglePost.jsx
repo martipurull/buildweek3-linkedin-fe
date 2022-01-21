@@ -27,6 +27,7 @@ import {
   ThreeDots,
 } from "react-bootstrap-icons";
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
+import { parseISO, differenceInMinutes, differenceInHours, differenceInDays, differenceInWeeks, differenceInMonths  } from "date-fns"
 
 const SinglePost = ({ post }) => {
 
@@ -43,6 +44,12 @@ const SinglePost = ({ post }) => {
     performCreateOrUpdate(`posts/${ post._id }`, 'PUT', formData)
     setShow(false)
   }
+
+  const diffInM = differenceInMinutes(new Date(), parseISO(post.createdAt))
+  const diffInH = differenceInHours(new Date(), parseISO(post.createdAt))
+  const diffInD = differenceInDays(new Date(), parseISO(post.createdAt))
+  const diffInW = differenceInWeeks(new Date(), parseISO(post.createdAt))
+  const diffInMo = differenceInMonths(new Date(), parseISO(post.createdAt))
 
   return (
     <div
@@ -70,7 +77,7 @@ const SinglePost = ({ post }) => {
             {post?.user?.bio}
             <br />
             {/* {timeSince(new Date(Date.now() - aDay))} */}
-            <i className="fas fa-globe-europe"></i>
+            <p className='text-muted mb-0'>{diffInM < 60 ? diffInM + 'm' : diffInH < 24 ? diffInH + 'h' : diffInD < 7 ? diffInD + 'd' : diffInW  < 4 ? diffInW + 'w' : diffInMo + 'mo'} &#8226; <i className="fas fa-globe-europe"></i></p>
           </p>
         </Col>
         <Col className="d-flex justify-content-end p-0 pr-4">

@@ -5,10 +5,12 @@ import RightComponent from "./RightComponent";
 import ExperiencesList from "./ExperiencesList";
 import Dashboard from "./Dashboard";
 import SkillDropDown from './SkillDropDown'
+import { useAuth } from "../contexts/AuthContext";
 
 const Profile = () => {
 
   const { userName } = useParams()
+  const { currentUser } = useAuth()
 
   return (
     <>
@@ -16,7 +18,7 @@ const Profile = () => {
         <Row>
           <Col xs={12} md={8}>
             <ProfileJumbotron userName={userName} />
-            { userName === 'test123' &&  <Dashboard /> }
+            { userName === currentUser.username &&  <Dashboard /> }
             <ExperiencesList userName={userName} />
             <SkillDropDown />
            </Col>

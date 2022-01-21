@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProfileEditForm from './ProfileEditForm'
 import useFetch from "../hooks/useFetch";
+import { useAuth } from "../contexts/AuthContext";
 
 const ProfileJumbotron = ({ userName }) => {
 
   const [info, setInfo] = useState([]);
 
   const { data: myData } = useFetch(`profiles/${userName}`)
+
+  const { currentUser } = useAuth()
+  const isMe = currentUser.username === userName
 
   useEffect(() => {
     setInfo(myData)
@@ -31,7 +35,7 @@ const ProfileJumbotron = ({ userName }) => {
                 <img src={info.image} alt="" className="profile-img img-fluid" />
               </div>
               <div className="jumbo-form-container">
-                <ProfileEditForm className="jumbo-pencil" profileDetails={info} userName={userName} requestType={"put"} />
+                <ProfileEditForm className="jumbo-pencil" profileDetails={info} userName={userName} requestType={"put"} isMe={isMe} />
               </div>
               <Row className="profile-jumbotron-rows profile-jumbotron-info">
                 <Col xs={12} md={9}>
@@ -45,7 +49,8 @@ const ProfileJumbotron = ({ userName }) => {
                   </p>
                   <p className="my-2 num-of-connections">{info?.connections?.length} connections</p>
                   <div className="d-flex justify-content-start w-100">
-                    <Button className="jumbotron-btns open-to-btn">Open to</Button>
+                    <Button className="jumbotron-btns open-to-btn">{isMe ? 'Open to' : 'Connect'}</Button>
+                    {isMe && <>
                     <Button
                       variant="outline-primary"
                       className="jumbotron-btns add-section-btn mx-2"
@@ -58,6 +63,7 @@ const ProfileJumbotron = ({ userName }) => {
                     >
                       More
                     </Button>
+                    </>}
                   </div>
                 </Col>
                 <Col xs={12} md={3}>

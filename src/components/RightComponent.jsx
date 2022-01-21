@@ -19,6 +19,9 @@ const RightComponent = () => {
 
   return (
     <div className="leftcomponent mt-5" style={{ background: "transparent" }}>
+
+    
+
       { pathname !== '/' && <div className="addfeed">
         <h6>People you may know</h6>
 

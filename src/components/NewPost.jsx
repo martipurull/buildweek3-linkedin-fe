@@ -27,6 +27,7 @@ import Loading from "./Loading";
 import Error from "./Error";
 import useFetch from "../hooks/useFetch";
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
+import { useAuth } from "../contexts/AuthContext";
 
 const NewPost = () => {
 
@@ -40,18 +41,20 @@ const NewPost = () => {
   const [postImage, setPostImage] = useState('')
   const [postText, setPostText] = useState('')
 
+  const { currentUser } = useAuth()
+
   const handleSubmit = () => {
     let formData = new FormData()
     formData.append('postImage', postImage || '')
     formData.append('text', postText || '')
-    performCreateOrUpdate('posts/test123', 'POST', formData)
+    performCreateOrUpdate(`posts/${currentUser.username}`, 'POST', formData)
     setShow(false)
     setRefreshNum(refreshNum + 1)
   }
 
 
   //use useParams to grab username?
-  const { data, loading: newPostLoading, error: newPostError, refetchData } = useFetch(`profiles/test123`, refreshNum)
+  const { data, loading: newPostLoading, error: newPostError, refetchData } = useFetch(`posts/${currentUser.username}`, refreshNum)
 
   useEffect(() => {
     setUser(data)

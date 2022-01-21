@@ -9,15 +9,19 @@ import useFetch from '../hooks/useFetch'
 import Loading from "./Loading"
 import Error from "./Error"
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate"
+import { useAuth } from '../contexts/AuthContext'
 
 
-const ProfileEditForm = ({ profileDetails, requestType, userName }) => {
+const ProfileEditForm = ({ profileDetails, requestType, userName, isMe }) => {
 
     const [selectedFile, setSelectedFile] = useState(null)
     const [show, setShow] = useState(false)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [profile, setProfile] = useState(profileDetails)
+
+    const { currentUser } = useAuth()
+
 
     const url = userName ? `profiles/${userName}` : `profiles`
     const handleClose = () => { setShow(false) }
@@ -52,8 +56,9 @@ const ProfileEditForm = ({ profileDetails, requestType, userName }) => {
         //         .catch((error) => console.log("error", error))
         // }
         // put()
-        performCreateOrUpdate(`profiles/${userName}`, "PUT", formData)
+        performCreateOrUpdate(`profiles/${currentUser.username}`, "PUT", formData)
         handleClose()
+        window.location.reload()
         // refetchData()
     }
 
@@ -71,11 +76,12 @@ const ProfileEditForm = ({ profileDetails, requestType, userName }) => {
 
     return (
         <>
-            <PencilFill
+            { isMe && 
+                <PencilFill
                 size={20}
                 id="pencil-icon-open-edit-form"
                 onClick={() => setShow(true)}
-            />
+            /> }
             <Modal id="profile-edit-form-modal" show={show} onHide={() => setShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>
