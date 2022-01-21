@@ -21,6 +21,7 @@ import {
 } from "react-bootstrap-icons";
 import { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
+import { useAuth } from "../contexts/AuthContext";
 
 const MyNavbar = () => {
 
@@ -30,6 +31,7 @@ const MyNavbar = () => {
   const [query, setQuery] = useState('')
   const [userProfile, setUserProfile] = useState()
   const [showPopover, setShowPopover] = useState(false)
+  const { logout } = useAuth()
 
   const { data } = useFetch(`profiles/test123`)
 
@@ -86,7 +88,7 @@ const MyNavbar = () => {
           <Link to="/jobs-create" className="mb-1 text-muted">Create Job</Link>
           <p className="mb-1 text-muted">Edit Job</p>
         </ListGroup.Item>
-        <ListGroup.Item>
+        <ListGroup.Item onClick={() => logout()}>
           <p className="mb-1 text-muted">Log Out</p>
         </ListGroup.Item>
       </Popover.Content>

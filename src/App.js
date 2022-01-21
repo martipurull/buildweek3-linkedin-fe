@@ -13,6 +13,7 @@ import JobDetails from './components/JobDetails'
 import CreateJob from './components/CreateJob'
 import Search from './components/Search'
 import Register from './components/Register'
+import Login from './components/Login'
 import { AuthProvider } from './contexts/AuthContext'
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/profile/:userName" element={<Profile />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
           {/* <Route path="/search" element={<Search />} /> */}
           <Route path="/jobs-create" element={<CreateJob />} />
           <Route path="/jobs/:jobId" element={<JobDetails />} />

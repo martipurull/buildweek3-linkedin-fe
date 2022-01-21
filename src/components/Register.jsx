@@ -3,7 +3,7 @@ import { Container, Form, Row, Button, Col } from "react-bootstrap"
 import { PencilFill, PlusLg } from "react-bootstrap-icons"
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
 import { useAuth } from '../contexts/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 export default function Register() {
 
@@ -132,7 +132,10 @@ export default function Register() {
                     </Form.Group>
 
 
-                    <Button variant="primary" type="submit">Register</Button>
+                    <div className="d-flex justify-content-between">
+                        <Button variant="primary" type="submit">Register</Button>
+                        <Link to='/login'>Login</Link>
+                    </div>
                 </Form>
             </Row>
         </Container>
