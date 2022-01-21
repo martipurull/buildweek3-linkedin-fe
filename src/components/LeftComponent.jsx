@@ -5,10 +5,10 @@ import Loading from "./Loading";
 import useFetch from "../hooks/useFetch";
 
 const LeftComponent = () => {
-  
+
   const [data, setData] = useState(null)
 
-  const { data: myData } = useFetch('profiles/test123')
+  const { data: myData } = useFetch('profiles/luraplitmur')
 
   useEffect(() => {
     setData(myData)
@@ -33,7 +33,7 @@ const LeftComponent = () => {
           />
         </div>
         <h6 className="mt-2 text-center mb-0">
-          {`${data?.name} ${data?.surname}`}
+          {`${ data?.name } ${ data?.surname }`}
         </h6>
         <p className="text-muted text-center m-0" style={{ fontSize: "12px" }}>
           {data?.title}

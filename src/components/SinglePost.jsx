@@ -1,5 +1,5 @@
 import "../App.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import LikeShare from "./LikeShare";
 import {
   Image,
@@ -8,29 +8,20 @@ import {
   Button,
   Modal,
   Form,
-  OverlayTrigger,
-  Tooltip,
 } from "react-bootstrap";
 import {
-  BarChartLineFill,
-  BlockquoteLeft,
-  BriefcaseFill,
-  CalendarDateFill,
   CaretDownFill,
-  ChatLeftTextFill,
   ChatTextFill,
-  FileEarmarkTextFill,
   Globe2,
-  ImageFill as ImageIcon,
-  Info,
-  PlayBtnFill,
-  ThreeDots,
+  Info
 } from "react-bootstrap-icons";
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
+import useDelete from '../hooks/useDelete'
 
 const SinglePost = ({ post }) => {
 
   const { performCreateOrUpdate } = useCreateOrUpdate()
+  const { performDelete } = useDelete(`posts/${ post._id }`)
   const [show, setShow] = useState(false)
 
   const [postImage, setPostImage] = useState(post?.image)
@@ -41,6 +32,11 @@ const SinglePost = ({ post }) => {
     formData.append('postImage', postImage || '')
     formData.append('text', postText || '')
     performCreateOrUpdate(`posts/${ post._id }`, 'PUT', formData)
+    setShow(false)
+  }
+
+  const handleDelete = () => {
+    performDelete()
     setShow(false)
   }
 
@@ -161,10 +157,17 @@ const SinglePost = ({ post }) => {
               <div className="newPostBottomIcons d-flex justify-content-center align-items-center text-secondary p-2">
                 <Button
                   className="post-button"
-                  variant="secondary"
+                  variant="warning"
                   onClick={handleSubmit}
                 >
-                  Post
+                  Edit Post
+                </Button>
+                <Button
+                  className="post-button"
+                  variant="danger"
+                  onClick={handleDelete}
+                >
+                  Delete Post
                 </Button>
               </div>
             </div>
