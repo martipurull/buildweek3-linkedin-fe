@@ -31,9 +31,9 @@ const MyNavbar = () => {
   const [query, setQuery] = useState('')
   const [userProfile, setUserProfile] = useState()
   const [showPopover, setShowPopover] = useState(false)
-  const { logout } = useAuth()
+  const { logout, currentUser } = useAuth()
 
-  const { data } = useFetch(`profiles/test123`)
+  const { data } = useFetch(`profiles/${currentUser?.username}`)
 
   useEffect(() => {
     setUserProfile(data)
@@ -43,6 +43,11 @@ const MyNavbar = () => {
     e.preventDefault()
     navigate(`/search?query=${query}`)
     setQuery('')
+  }
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
   }
 
   const mePopover = (
@@ -88,7 +93,7 @@ const MyNavbar = () => {
           <Link to="/jobs-create" className="mb-1 text-muted">Create Job</Link>
           <p className="mb-1 text-muted">Edit Job</p>
         </ListGroup.Item>
-        <ListGroup.Item onClick={() => logout()}>
+        <ListGroup.Item onClick={handleLogout}>
           <p className="mb-1 text-muted">Log Out</p>
         </ListGroup.Item>
       </Popover.Content>
@@ -107,6 +112,8 @@ const MyNavbar = () => {
               alt="LinkedIn Logo"
             />
           </Link>
+          { currentUser && (
+          <>
           <Form inline className="d-none d-lg-block" onSubmit={handleSubmit}>
             <Form.Group id="navbar-search-container">
               <InputGroup.Prepend>
@@ -185,6 +192,8 @@ const MyNavbar = () => {
               </div>
             </Link>
           </div>
+          </>
+          )}
         </Container>
       </Navbar>
 

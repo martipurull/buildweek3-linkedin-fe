@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom'
 
 export default function Register() {
 
-    // const { signup } = useAuth()
+    const { signup } = useAuth()
 
     const { performCreateOrUpdate } = useCreateOrUpdate()
 
@@ -44,7 +44,7 @@ export default function Register() {
         formData.append('bio', userDetails.bio)
         formData.append('email', userDetails.email)
         performCreateOrUpdate('profiles', 'POST', formData)
-        // await signup(userDetails.email, password)
+        await signup(userDetails.email, password)
         navigate('/')
     }
 

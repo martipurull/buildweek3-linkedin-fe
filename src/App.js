@@ -15,6 +15,7 @@ import Search from './components/Search'
 import Register from './components/Register'
 import Login from './components/Login'
 import { AuthProvider } from './contexts/AuthContext'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
   return (
@@ -22,14 +23,14 @@ const App = () => {
       <AuthProvider>
         <MyNavbar />
         <Routes>
-          <Route path="/" element={<Feed />} />
-          <Route path="/profile/:userName" element={<Profile />} />
-          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/" element={<PrivateRoute><Feed /></PrivateRoute>} />
+          <Route path="/profile/:userName" element={<PrivateRoute><Profile /></PrivateRoute>} />
+          <Route path="/jobs" element={<PrivateRoute><Jobs /></PrivateRoute>} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           {/* <Route path="/search" element={<Search />} /> */}
-          <Route path="/jobs-create" element={<CreateJob />} />
-          <Route path="/jobs/:jobId" element={<JobDetails />} />
+          <Route path="/jobs-create" element={<PrivateRoute><CreateJob /></PrivateRoute>} />
+          <Route path="/jobs/:jobId" element={<PrivateRoute><JobDetails /></PrivateRoute>} />
           <Route path="*" element={<Error error="Page not found" />} />
         </Routes>
         <Footer />
