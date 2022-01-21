@@ -58,7 +58,7 @@ const NewPost = () => {
   }, [data])
 
   // if (loading) return <Loading />;
-  if (error) return <Error />;
+  // if (error) return <Error />
 
   return (
     <>
@@ -252,6 +252,6 @@ const NewPost = () => {
 
     </>
   );
-};
 
+}
 export default NewPost;

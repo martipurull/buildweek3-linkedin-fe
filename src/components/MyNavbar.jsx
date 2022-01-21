@@ -53,7 +53,7 @@ const MyNavbar = () => {
             </div>
           </div>
           <div id="modal-view-profile-btn-container">
-            <Link to={`/profile/${ userProfile?.username }`}>
+            <Link to={`/profile/${userProfile?.username}`}>
               <Button
                 id="modal-view-profile-btn"
                 variant="outline-primary"

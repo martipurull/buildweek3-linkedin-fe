@@ -9,7 +9,7 @@ const ProfileJumbotron = ({ userName }) => {
 
   const [info, setInfo] = useState([]);
 
-  const { data: myData } = useFetch(`profiles/${ userName }`)
+  const { data: myData } = useFetch(`profiles/${userName}`)
 
   useEffect(() => {
     setInfo(myData)
@@ -31,7 +31,7 @@ const ProfileJumbotron = ({ userName }) => {
                 <img src={info.image} alt="" className="profile-img img-fluid" />
               </div>
               <div className="jumbo-form-container">
-                <ProfileEditForm className="jumbo-pencil" profileDetails={info} />
+                <ProfileEditForm className="jumbo-pencil" profileDetails={info} userName={userName} requestType={"put"} />
               </div>
               <Row className="profile-jumbotron-rows profile-jumbotron-info">
                 <Col xs={12} md={9}>
@@ -41,7 +41,7 @@ const ProfileJumbotron = ({ userName }) => {
                   <p className="my-0 occupation">{info.title}</p>
                   <p className="my-0 location text-muted">
                     {info.area} •
-              <span className="contact-info-link "> Contact info </span>
+                    <span className="contact-info-link "> Contact info </span>
                   </p>
                   <p className="my-2 num-of-connections">52 connections</p>
                   <div className="d-flex justify-content-start w-100">
@@ -51,13 +51,13 @@ const ProfileJumbotron = ({ userName }) => {
                       className="jumbotron-btns add-section-btn mx-2"
                     >
                       Add section
-              </Button>
+                    </Button>
                     <Button
                       variant="outline-secondary"
                       className="jumbotron-btns more-btn"
                     >
                       More
-              </Button>
+                    </Button>
                   </div>
                 </Col>
                 <Col xs={12} md={3}>

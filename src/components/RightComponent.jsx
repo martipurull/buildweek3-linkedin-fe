@@ -12,26 +12,26 @@ const RightComponent = () => {
   useEffect(() => {
     setPeople(data)
   }, [data])
- 
+
   return (
     <div className="leftcomponent mt-5" style={{ background: "transparent" }}>
       <div className="addfeed">
         <h6>Add your feed</h6>
 
         <Container>
-          {people?.slice(0, 4).map((m, i) => (
-            <Row key={i} className="p-2">
+          {people?.slice(0, 4).map((person) => (
+            <Row key={person._id} className="p-2">
               <img
-                src={m.image}
+                src={person.image}
                 alt="satya nadela img"
                 style={{ width: "50px", height: "50px", borderRadius: "50%" }}
               />
               <h6 className="mb-0 ml-2">
-                {m.name + " " + m.surname}
+                {person.name + " " + person.surname}
                 <p className="mb-1 text-muted" style={{ fontSize: "11px" }}>
-                  {m.title}
+                  {person.title}
                 </p>
-                <Link to={`/profile/${ m._id }`}>
+                <Link to={`/profile/${person.username}`}>
                   <Button variant="outline-secondary" className="follow m-1">
                     <i className="fas fa-plus mr-1"></i>
                     Follow
