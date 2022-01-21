@@ -45,7 +45,9 @@ export default function Register() {
         formData.append('email', userDetails.email)
         performCreateOrUpdate('profiles', 'POST', formData)
         await signup(userDetails.email, password)
-        navigate('/')
+        setTimeout(() => {
+            navigate('/')
+        }, 1000)
     }
 
 
@@ -57,7 +59,7 @@ export default function Register() {
                     <Row>
                         <Col xs="2">
                             <Form.Label>Title</Form.Label>
-                                <Form.Control as="select">
+                            <Form.Control as="select">
                                 <option>Mr</option>
                                 <option>Mrs</option>
                                 <option>Ms</option>
@@ -67,13 +69,13 @@ export default function Register() {
                         <Col xs="5">
                             <Form.Group>
                                 <Form.Label>Name</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Name" value={userDetails.name} onChange={e => handleChange('name', e.target.value)}/>
+                                <Form.Control type="text" placeholder="Enter Name" value={userDetails.name} onChange={e => handleChange('name', e.target.value)} />
                             </Form.Group>
                         </Col>
                         <Col xs="5">
                             <Form.Group>
                                 <Form.Label>Surname</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Surname" value={userDetails.surname} onChange={e => handleChange('surname', e.target.value)}/>
+                                <Form.Control type="text" placeholder="Enter Surname" value={userDetails.surname} onChange={e => handleChange('surname', e.target.value)} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -82,13 +84,13 @@ export default function Register() {
                         <Col>
                             <Form.Group>
                                 <Form.Label>Username</Form.Label>
-                                <Form.Control type="text" placeholder="Enter username" value={userDetails.username} onChange={e => handleChange('username', e.target.value)}/>
+                                <Form.Control type="text" placeholder="Enter username" value={userDetails.username} onChange={e => handleChange('username', e.target.value)} />
                             </Form.Group>
                         </Col>
                         <Col>
                             <Form.Group>
                                 <Form.Label>Area</Form.Label>
-                                <Form.Control type="text" placeholder="Enter Area" value={userDetails.area} onChange={e => handleChange('area', e.target.value)}/>
+                                <Form.Control type="text" placeholder="Enter Area" value={userDetails.area} onChange={e => handleChange('area', e.target.value)} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -97,13 +99,13 @@ export default function Register() {
                         <Col>
                             <Form.Group>
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" value={userDetails.email} onChange={e => handleChange('email', e.target.value)}/>
+                                <Form.Control type="email" placeholder="Enter email" value={userDetails.email} onChange={e => handleChange('email', e.target.value)} />
                             </Form.Group>
                         </Col>
                         <Col>
                             <Form.Group>
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
+                                <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                             </Form.Group>
                         </Col>
                     </Row>
@@ -124,11 +126,11 @@ export default function Register() {
                             type="file"
                             onChange={(event) => setSelectedFile(event.target.files[0])}
                         />
-                        </Form.Group>
+                    </Form.Group>
 
                     <Form.Group>
                         <Form.Label>Bio</Form.Label>
-                        <Form.Control as="textarea" rows={2} type="text" placeholder="Enter Bio" value={userDetails.bio} onChange={e => handleChange('bio', e.target.value)}/>
+                        <Form.Control as="textarea" rows={2} type="text" placeholder="Enter Bio" value={userDetails.bio} onChange={e => handleChange('bio', e.target.value)} />
                     </Form.Group>
 
 

@@ -28,12 +28,10 @@ export function AuthProvider({ children }) {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
-            if (user) { 
-                setTimeout(() => {
-                    axios.get(`${process.env.REACT_APP_BASE_URL}/profiles/email?email=${user.email}`)
+            if (user) {
+                axios.get(`${ process.env.REACT_APP_BASE_URL }/profiles/email?email=${ user.email }`)
                     .then(res => setCurrentUser(res.data))
                     .catch(e => console.error(e))
-                }, 1000)
                 setLoading(false)
             } else {
                 setCurrentUser(null)
@@ -44,7 +42,7 @@ export function AuthProvider({ children }) {
         return unsubscribe
     }, [])
 
-    const value ={
+    const value = {
         currentUser,
         signup,
         login,

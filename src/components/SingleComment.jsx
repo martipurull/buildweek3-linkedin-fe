@@ -18,8 +18,13 @@ const SingleComment = ({ comment, post }) => {
         window.location.reload()
     }
 
-    const editComment = () => {
-        performCreateOrUpdate(`posts/${ post._id }/comments/${ comment._id }`, 'PUT', commentText)
+    const editComment = (event) => {
+        fetch(`${ process.env.REACT_APP_BASE_URL }/posts/${ post._id }/comments/${ comment._id }`,
+            {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: commentText })
+            })
         setShow(false)
         window.location.reload()
     }

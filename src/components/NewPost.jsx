@@ -43,7 +43,8 @@ const NewPost = () => {
 
   const { currentUser } = useAuth()
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     let formData = new FormData()
     formData.append('postImage', postImage || '')
     formData.append('text', postText || '')

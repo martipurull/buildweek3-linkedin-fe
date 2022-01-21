@@ -23,7 +23,7 @@ const ProfileEditForm = ({ profileDetails, requestType, userName, isMe }) => {
     const { currentUser } = useAuth()
 
 
-    const url = userName ? `profiles/${userName}` : `profiles`
+    const url = userName ? `profiles/${ userName }` : `profiles`
     const handleClose = () => { setShow(false) }
     const { error: proError, refetchData } = useFetch(url)
     const { performCreateOrUpdate } = useCreateOrUpdate()
@@ -34,7 +34,8 @@ const ProfileEditForm = ({ profileDetails, requestType, userName, isMe }) => {
         })
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
         let formData = new FormData()
         formData.append('name', profile.name)
         formData.append('surname', profile.surname)
@@ -56,7 +57,7 @@ const ProfileEditForm = ({ profileDetails, requestType, userName, isMe }) => {
         //         .catch((error) => console.log("error", error))
         // }
         // put()
-        performCreateOrUpdate(`profiles/${currentUser.username}`, "PUT", formData)
+        performCreateOrUpdate(`profiles/${ currentUser.username }`, "PUT", formData)
         handleClose()
         window.location.reload()
         // refetchData()
@@ -76,12 +77,12 @@ const ProfileEditForm = ({ profileDetails, requestType, userName, isMe }) => {
 
     return (
         <>
-            { isMe && 
+            { isMe &&
                 <PencilFill
-                size={20}
-                id="pencil-icon-open-edit-form"
-                onClick={() => setShow(true)}
-            /> }
+                    size={20}
+                    id="pencil-icon-open-edit-form"
+                    onClick={() => setShow(true)}
+                />}
             <Modal id="profile-edit-form-modal" show={show} onHide={() => setShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>

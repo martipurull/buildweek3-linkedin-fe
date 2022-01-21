@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Form, Row, Button, Col, Spinner } from "react-bootstrap"
 import { PencilFill, PlusLg } from "react-bootstrap-icons"
 import useCreateOrUpdate from "../hooks/useCreateOrUpdate";
@@ -7,7 +7,7 @@ import { useNavigate, Link } from 'react-router-dom'
 
 export default function Register() {
 
-    const { login } = useAuth()
+    const { login, currentUser } = useAuth()
 
     const navigate = useNavigate()
 
@@ -21,9 +21,14 @@ export default function Register() {
         await login(email, password)
         setTimeout(() => {
             navigate('/')
-        }, 2000)
+        }, 1000)
     }
 
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/')
+        }
+    }, [currentUser])
 
     return (
         <Container>
@@ -32,11 +37,11 @@ export default function Register() {
 
                     <Form.Group>
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)}/>
+                        <Form.Control type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} />
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
+                        <Form.Control type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                     </Form.Group>
 
                     <div className="d-flex justify-content-between">

@@ -57,7 +57,12 @@ const SinglePost = ({ post }) => {
 
   const submitComment = (event) => {
     if (event.key === 'Enter') {
-      performJsonCreateOrUpdate(`posts/${ post._id }/comments`, 'POST', commentText)
+      fetch(`${ process.env.REACT_APP_BASE_URL }/posts/${ post._id }/comments`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: commentText })
+        })
       window.location.reload()
     }
   }
